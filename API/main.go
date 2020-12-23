@@ -4,6 +4,7 @@ import (
 	"./LogoGenerator"
 	"encoding/base64"
 	"encoding/json"
+	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
 	"github.com/ungerik/go-cairo"
@@ -19,7 +20,7 @@ func main() {
 	//testGenerator()
 }
 func testServer() {
-	router := mux.NewRouter().StrictSlash(true)
+	router := mux.NewRouter()
 	router.HandleFunc("/api/image/{uni_name}", getImage).Methods("GET")
 	// cors for the fucking bitch javascript ie throwing shit like crazy :)
 	handler := cors.Default().Handler(router)
@@ -56,12 +57,15 @@ func getImage(w http.ResponseWriter, r *http.Request) {
 	gen := LogoGenerator.NewLogoGenerator(s, parameters["uni_name"])
 	gen.Text = parameters["uni_name"]
 
-	gen.GetLogoWithText(260.0)
-	gen.Logo.WriteToPNG("new-logo.png")
+	gen.GetLogoWithText(250.0).WriteToPNG("new-logo.png")
 	cont, _ := ioutil.ReadFile("new-logo.png")
 	gen.Logo.Finish()
 	s.Finish()
 
+	// dear future me or anyone reading this....
+	// I parsed the array into json in a separate step "instead of json.NewEncoder(w).Encode(img)"
+	// to not fuck up the response with a byte array instead of a regular string :)
 	img := image{base64.StdEncoding.EncodeToString(cont)}
-	json.NewEncoder(w).Encode(img)
+	j, _ := json.Marshal(img)
+	fmt.Fprintln(w, string(j))
 }
