@@ -1,3 +1,14 @@
 .genLogo {
-    size: 50px;
+    horiz-align: center;
+}
+
+.uniName {
+    horiz-align: center;
+}
+
+.finalLogo {
+    width: 500px;
+    height: 500px;
+    background: transparent;
+    horiz-align: center;
 }
