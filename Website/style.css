@@ -1,18 +1,67 @@
+@font-face {
+    font-family: PSans;
+    src: url(../res/ProductSans-Regular.ttf);
+}
+
 .genLogo {
+    font-family: PSans;
     horiz-align: center;
 }
 
 .uniName {
+    font-family: PSans;
     horiz-align: center;
+    font-size: large;
 }
 
 .finalLogo {
     width: 500px;
     height: 500px;
     background: transparent;
-    horiz-align: center;
+    position: relative;
+    margin: auto;
+    border: solid black 5px;
+}
+
+.title {
+    font-family: PSans;
+    position: relative;
+    text-align: center;
+    margin: auto;
+    width: 100%;
 }
 
 .div1 {
-    horiz-align: center;
+    font-family: PSans;
+    position: fixed;
+    text-align: center;
+    margin: auto;
+    width: 100%;
+}
+
+.div2 {
+    font-family: PSans;
+    position: relative;
+    text-align: center;
+    margin: auto;
+    width: 100%;
+}
+
+.div3 {
+    font-family: PSans;
+    position: relative;
+}
+
+a {
+    font-family: PSans;
+    color: fuchsia;
+}
+
+.info {
+    font-family: PSans;
+    position: fixed;
+    bottom: 0;
+    text-align: center;
+    margin: auto;
+    width: 100%;
 }

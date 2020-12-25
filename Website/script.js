@@ -1,17 +1,28 @@
-document.getElementById("genLogo").onclick = function () {
-    const uni_name = document.getElementById("uniName").value;
-    const img_color = document.getElementById("colors").value;
-    let bg_color = document.getElementById("bgColor").value;
+const finalLogo = document.getElementById("finalLogo")
+const genLogo = document.getElementById("genLogo")
 
-    if (bg_color.length < 6) {
-        bg_color = "-16"
+function checkInput(uniName) {
+    if (uniName === "") {
+        alert("Enter University Name!");
+        return false;
     }
-    if (uni_name === "" || bg_color === "") {
-        alert("Enter fields blyat!");
-        return;
+    return true
+}
+
+function showImage(src) {
+    finalLogo.src = src
+}
+
+genLogo.onclick = function () {
+    const uniName = document.getElementById("uniName").value;
+    const imgColor = document.getElementById("colors").value;
+    let bgColor = document.getElementById("bgColor").value / 10;
+
+    if (!checkInput(uniName)) {
+        return
     }
 
-    const url = "http://127.0.0.1:6969/api/uni_name/" + uni_name + "/img_color/" + img_color +"/bg_color/" + bg_color;
+    const url = "http://127.0.0.1:6969/api/uni_name/" + uniName + "/img_color/" + imgColor + "/bg_color/" + bgColor;
 
     let xhttp = new XMLHttpRequest();
     xhttp.open("GET", url, false);
@@ -26,6 +37,9 @@ document.getElementById("genLogo").onclick = function () {
     showImage("data:image/png;base64," + response["image"])
 }
 
-function showImage(src) {
-    document.getElementById("finalLogo").src = src
+document.getElementById("downImg").onclick = function () {
+    let a = document.createElement("a");
+    a.href = finalLogo.src;
+    a.download = "logo.png";
+    a.click();
 }

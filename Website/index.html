@@ -3,32 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <title>dsc-logo-generator</title>
-    <link rel="stylesheet" href="style.css">
+    <link href="style.css" rel="stylesheet">
 </head>
 <body>
-<p align="center">
+<br/>
+<h1 class="title">DSC Logo Generator</h1>
+<br/><br/>
 
-    <input type="text" id="uniName" class="uniName" placeholder="University"/>
-    <input type="text" id="bgColor" class="uniColor" placeholder="Background Color"/>
-    <label for="colors">Choose Logo Color:</label>
-    <select name="colors" id="colors">
+<div class="div2">
+    <label for="bgColor">Background Opacity</label>
+    <input class="bgColor" id="bgColor" max="10" min="0" type="range" value="0">
+    <br/><br/>
+    <label for="colors">Logo Color Type</label>
+    <select id="colors" name="colors">
         <option value="raw-logo-color">Color</option>
         <option value="raw-logo-gray">Gray</option>
         <option value="raw-logo-white">White</option>
     </select>
-    <button id="genLogo" class="genLogo">Generate Logo</button>
+    <br/><br/>
+    <label for="uniName"></label><input class="uniName" id="uniName" placeholder="University Name" type="text"/>
+    <br/><br/>
+    <button class="genLogo" id="genLogo">Generate Logo</button>
+    <button class="downImg" id="downImg">Download Logo</button>
+</div>
 
-</p>
+<br/>
 
-<img id="finalLogo" class="finalLogo"/>
+<div class="div1">
+    <img class="finalLogo" id="finalLogo"/>
+</div>
 
 <script src="script.js"></script>
-</body>
-<footer>
-    <p align="center" style="vertical-align: bottom">
-        Made by <a href="https://github.com/baraa-almasri">Baraa Al-Masri</a> :)
-        <br/>
-        also <a href="https://github.com/baraa-almasri/dsc_logo_generator">here</a>'s the thing
+
+<div class="div3">
+    <p class="info">
+        Made with ﴫ️ by <a href="https://twitter.com/hexagon16rpm">@hexagon16rpm</a>
+        from the <a href="https://web.facebook.com/DSCASU">DSC ASU</a> chapter
+        • <a href="https://github.com/baraa-almasri/dsc_logo_generator">GitHub</a> •
     </p>
-</footer>
+</div>
+</body>
 </html>
