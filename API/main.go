@@ -1,14 +1,15 @@
 package main
 
 import (
+	"./Logo"
 	"./LogoGenerator"
+	"./RGB"
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
 	"github.com/ungerik/go-cairo"
-	"io/ioutil"
 	"log"
 	"net/http"
 )
@@ -19,9 +20,10 @@ func main() {
 	testServer()
 	//testGenerator()
 }
+
 func testServer() {
 	router := mux.NewRouter()
-	router.HandleFunc("/api/image/{uni_name}", getImage).Methods("GET")
+	router.HandleFunc("/api/uni_name/{uni_name}/img_color/{img_color}/bg_color/{bg_color}", getImage).Methods("GET")
 	// cors for the fucking bitch javascript ie throwing shit like crazy :)
 	handler := cors.Default().Handler(router)
 	log.Fatal(http.ListenAndServe(":6969", handler))
@@ -29,12 +31,13 @@ func testServer() {
 }
 
 func testGenerator() {
-	f, _ := cairo.NewSurfaceFromPNG("res/raw-logo-color.png")
+	/*f, _ := cairo.NewSurfaceFromPNG("res/raw-logo-color.png")
 	k := LogoGenerator.NewLogoGenerator(f, "Applied Science University")
-	img := k.GetLogoWithText(250.0)
+	img := k.GetLogoWithText(200.0)
 	img.WriteToPNG("final.png")
 	img.Finish()
 	f.Finish()
+	*/
 }
 
 func setupResponse(w *http.ResponseWriter) {
@@ -44,28 +47,49 @@ func setupResponse(w *http.ResponseWriter) {
 	(*w).Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
 }
 
-// for json formatting
-type image struct {
-	Image string `json:"image"`
-}
-
+// oi blyat a shitty function :(
 func getImage(w http.ResponseWriter, r *http.Request) {
 	setupResponse(&w)
 
-	parameters := mux.Vars(r) // { "uni_name": "eg ASU" }
-	s, _ := cairo.NewSurfaceFromPNG("res/raw-logo-color.png")
-	gen := LogoGenerator.NewLogoGenerator(s, parameters["uni_name"])
-	gen.Text = parameters["uni_name"]
+	parameters := mux.Vars(r) // { "uni_name": "eg ASU", "bg_color": "eg #FFFFFF", "img_color": "eg color"}
+	uni_name := parameters["uni_name"]
+	img_color := parameters["img_color"] // color, gray, or white
+	bg_color := parameters["bg_color"]
 
-	gen.GetLogoWithText(250.0).WriteToPNG("new-logo.png")
-	cont, _ := ioutil.ReadFile("new-logo.png")
+	if bg_color == "-16" {
+		// lol
+	}
+
+	// plz use a map for colors blyat!
+	var text_color string
+	switch img_color {
+	case "raw-logo-gray":
+		text_color = "676C72"
+		break
+	case "raw-logo-color":
+		text_color = "676C72"
+		break
+	case "raw-logo-white":
+		text_color = "FFFFFF"
+		break
+	}
+
+	rawLogo, _ := cairo.NewSurfaceFromPNG(fmt.Sprintf("res/%s.png", img_color))
+	gen := LogoGenerator.NewLogoGenerator(rawLogo, uni_name, RGB.NewFromHex(text_color))
+
+	// TODO
+	// replace with byte array pass around! well for speed issues
+	content, _ := gen.GetLogoWithText(200.0).WriteToPNGStream()
 	gen.Logo.Finish()
-	s.Finish()
+	rawLogo.Finish()
 
 	// dear future me or anyone reading this....
 	// I parsed the array into json in a separate step "instead of json.NewEncoder(w).Encode(img)"
 	// to not fuck up the response with a byte array instead of a regular string :)
-	img := image{base64.StdEncoding.EncodeToString(cont)}
+	img := Logo.NewLogo(content, RGB.NewRGB(gen.TextColor.GetRGB()))
+	{
+		base64.StdEncoding.EncodeToString(content)
+	}
 	j, _ := json.Marshal(img)
 	fmt.Fprintln(w, string(j))
 }

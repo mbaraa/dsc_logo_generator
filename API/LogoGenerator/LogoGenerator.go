@@ -1,6 +1,7 @@
 package LogoGenerator
 
 import (
+	"../RGB"
 	"github.com/ungerik/go-cairo"
 	"math"
 	"unicode"
@@ -13,12 +14,13 @@ type LogoGenerator struct {
 	width            float64
 	Text             string
 	actualTextLength float64
+	TextColor        *RGB.RGB
 }
 
-func NewLogoGenerator(logo *cairo.Surface, text string) *LogoGenerator {
+func NewLogoGenerator(logo *cairo.Surface, text string, textColor *RGB.RGB) *LogoGenerator {
 	return &LogoGenerator{
 		logo, nil,
-		0.0, 0.0, text, 0.0}
+		0.0, 0.0, text, 0.0, textColor}
 }
 
 func (this *LogoGenerator) generateActualTextLength(textSize float64) {
@@ -66,10 +68,12 @@ func (this LogoGenerator) getCenterStartOfElement(childLength float64, parentLen
 	// = (-(p-c))/2 = |(p-c)/2| SINCE IT'S A LENGTH BLYAT!!
 }
 
+// TODO
+// adapt to logo dimensions
 func (this *LogoGenerator) GetLogoWithText(textSize float64) *cairo.Surface {
 	this.initDimensions(textSize)
 	logoX := this.getCenterStartOfElement(float64(this.Logo.GetWidth()), this.width)
-	logoY := this.getCenterStartOfElement(float64(this.Logo.GetHeight()), this.height)
+	logoY := this.height / 2
 	// create new empty transparent image
 	this.finalImage = cairo.NewSurface(cairo.FORMAT_ARGB32, int(this.width), int(this.height))
 	// append given logo to the top center of the created image
@@ -79,18 +83,15 @@ func (this *LogoGenerator) GetLogoWithText(textSize float64) *cairo.Surface {
 	this.finalImage.Paint()
 	// set font attributes
 	this.finalImage.SelectFontFace("Product Sans", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL)
-	this.finalImage.SetSourceRGBA(0, 0, 0, 0.53) // kinda gray
+	this.finalImage.SetSourceRGB(this.TextColor.GetRGB())
 	this.finalImage.SetFontSize(textSize)
 	// pre-finally write the given text
 	this.finalImage.MoveTo(
 		this.getCenterStartOfElement(
 			this.actualTextLength, this.width), // in case of text length < logo width
-		(logoY/1.5)+float64(this.Logo.GetHeight()))
+		(logoY/1.75)+float64(this.Logo.GetHeight()))
 
 	this.finalImage.ShowText(this.Text)
 
 	return this.finalImage
 }
-
-// TODO
-// add write image function

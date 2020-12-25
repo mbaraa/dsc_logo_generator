@@ -7,8 +7,17 @@
 </head>
 <body>
 <p align="center">
-    <input type="text" id="uniName" class="uniName"/>
+
+    <input type="text" id="uniName" class="uniName" placeholder="University"/>
+    <input type="text" id="bgColor" class="uniColor" placeholder="Background Color"/>
+    <label for="colors">Choose Logo Color:</label>
+    <select name="colors" id="colors">
+        <option value="raw-logo-color">Color</option>
+        <option value="raw-logo-gray">Gray</option>
+        <option value="raw-logo-white">White</option>
+    </select>
     <button id="genLogo" class="genLogo">Generate Logo</button>
+
 </p>
 
 <img id="finalLogo" class="finalLogo"/>
