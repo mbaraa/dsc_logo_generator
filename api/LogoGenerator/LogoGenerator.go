@@ -28,7 +28,7 @@ func NewLogoGenerator(logo *cairo.Surface, text string, textColor *RGB.RGB, back
 		0.0, 0.0, text, 0.0, textColor, backgroundAlpha}
 }
 
-func (this *LogoGenerator) generateActualTextLength(textSize float64) {
+func (this *LogoGenerator) getActualTextLength(textSize float64) float64 {
 	// go to previous commits to see the epic stupid calcs :')
 	var finalLength fixed.Int26_6 = 0
 	psansByte, _ := ioutil.ReadFile("res/ProductSans-Regular.ttf")
@@ -37,21 +37,25 @@ func (this *LogoGenerator) generateActualTextLength(textSize float64) {
 		finalLength += psansTTF.HMetric(fixed.Int26_6(textSize), psansTTF.Index(chr)).AdvanceWidth
 	}
 
-	this.actualTextLength = float64(finalLength)
+	return float64(finalLength)
+}
+
+// I hate recursion, but there's no other way that I can think of :)
+func (this *LogoGenerator) generateTextLength(textSize float64) (float64, float64) {
+	length := this.getActualTextLength(textSize)
+	if length <= float64(this.Logo.GetWidth())*0.85 {
+		return length, textSize
+	} else {
+		return this.generateTextLength(textSize - 1)
+	}
 }
 
 func (this *LogoGenerator) initDimensions(textSize float64) {
-	this.generateActualTextLength(textSize)
+	this.actualTextLength, _ = this.generateTextLength(textSize)
 	// pretty self explanatory huh ?!
-	if int(this.actualTextLength) < this.Logo.GetWidth() {
-		shared := math.Max(float64(this.Logo.GetWidth()), float64(this.Logo.GetHeight()))
-		this.width = shared
-		this.height = shared
-	} else {
-		// or recursively decrease text length
-		this.width = this.actualTextLength
-		this.height = this.actualTextLength
-	}
+	shared := math.Max(float64(this.Logo.GetWidth()), float64(this.Logo.GetHeight()))
+	this.width = shared
+	this.height = shared
 }
 
 // return the coordinate of the first point of the child element
@@ -92,11 +96,12 @@ func (this *LogoGenerator) GetLogoWithTextWithPadding(textSize, paddX, paddY flo
 
 func (this *LogoGenerator) appendText(textSize float64) {
 	_, logoY := this.appendLogo()
-
+	_, modifiedTextSize := this.generateTextLength(textSize)
 	// set font attributes
 	this.finalImage.SelectFontFace("Product Sans", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL)
 	this.finalImage.SetSourceRGB(this.TextColor.GetRGB())
-	this.finalImage.SetFontSize(textSize)
+
+	this.finalImage.SetFontSize(modifiedTextSize)
 	// pre-finally write the given text
 	this.finalImage.MoveTo(
 		this.getCenterStartOfElement(
