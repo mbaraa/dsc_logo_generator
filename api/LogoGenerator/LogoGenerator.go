@@ -2,9 +2,11 @@ package LogoGenerator
 
 import (
 	"../RGB"
+	"github.com/golang/freetype/truetype"
 	"github.com/ungerik/go-cairo"
+	"golang.org/x/image/math/fixed"
+	"io/ioutil"
 	"math"
-	"unicode"
 )
 
 type LogoGenerator struct {
@@ -18,6 +20,8 @@ type LogoGenerator struct {
 	bgAlpha          float64
 }
 
+// the text will appear in Google Sans font
+// I think I'll add a font attribute in the future but...
 func NewLogoGenerator(logo *cairo.Surface, text string, textColor *RGB.RGB, backgroundAlpha float64) *LogoGenerator {
 	return &LogoGenerator{
 		logo, nil,
@@ -25,23 +29,15 @@ func NewLogoGenerator(logo *cairo.Surface, text string, textColor *RGB.RGB, back
 }
 
 func (this *LogoGenerator) generateActualTextLength(textSize float64) {
-	// IDK, I noticed that each char is taking size/2, given the fact that each char has different size :) sooooo
-	// well the above is pure horseshit :(, well not all of it
-	// here's the thing blyat
-	// charsSizes = {lower: size/2, upper: size/1.8, digit: size/2, space: 0}
-	finalSize := 0.0
+	// go to previous commits to see the epic stupid calcs :')
+	var finalLength fixed.Int26_6 = 0
+	psansByte, _ := ioutil.ReadFile("res/ProductSans-Regular.ttf")
+	psansTTF, _ := truetype.Parse(psansByte)
 	for _, chr := range this.Text {
-		if unicode.IsLower(chr) {
-			finalSize += textSize / 2
-		} else if unicode.IsUpper(chr) || unicode.IsDigit(chr) {
-			finalSize += textSize / 1.8
-		} // if you expected a third else, I feel sorry for you :)
+		finalLength += psansTTF.HMetric(fixed.Int26_6(textSize), psansTTF.Index(chr)).AdvanceWidth
 	}
-	// you can feel sorry for my too since this shitty calculation
-	// will be fucked up if the given string is all lower cases
-	// so whoever you are reading this stick to the rules
-	// OR if you know a rational way to fix it tell me, or fork it and fix it on your own :)
-	this.actualTextLength = finalSize
+
+	this.actualTextLength = float64(finalLength)
 }
 
 func (this *LogoGenerator) initDimensions(textSize float64) {
