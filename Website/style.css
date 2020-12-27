@@ -3,13 +3,28 @@
     src: url(../res/ProductSans-Regular.ttf);
 }
 
-.genLogo {
+a {
+    color: #ff00ff;
+    text-decoration: unset;
+}
+
+.linkedin {
+    color: #0e76a8;
+}
+
+.twitter {
+    color: #00acee;
+}
+
+body, button, select, option {
     font-family: PSans;
+}
+
+.genLogo {
     horiz-align: center;
 }
 
 .uniName {
-    font-family: PSans;
     horiz-align: center;
     font-size: large;
 }
@@ -20,11 +35,10 @@
     background: transparent;
     position: relative;
     margin: auto;
-    border: solid black 5px;
+    border: solid #000000 5px;
 }
 
 .title {
-    font-family: PSans;
     position: relative;
     text-align: center;
     margin: auto;
@@ -32,7 +46,6 @@
 }
 
 .div1 {
-    font-family: PSans;
     position: fixed;
     text-align: center;
     margin: auto;
@@ -40,7 +53,6 @@
 }
 
 .div2 {
-    font-family: PSans;
     position: relative;
     text-align: center;
     margin: auto;
@@ -48,17 +60,10 @@
 }
 
 .div3 {
-    font-family: PSans;
     position: relative;
 }
 
-a {
-    font-family: PSans;
-    color: fuchsia;
-}
-
 .info {
-    font-family: PSans;
     position: fixed;
     bottom: 0;
     text-align: center;

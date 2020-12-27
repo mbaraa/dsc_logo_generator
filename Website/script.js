@@ -1,12 +1,13 @@
-const finalLogo = document.getElementById("finalLogo")
-const genLogo = document.getElementById("genLogo")
+const finalLogo = document.getElementById("finalLogo");
+const genLogo = document.getElementById("genLogo");
+let logoExists = false;
 
 function checkInput(uniName) {
     if (uniName === "") {
         alert("Enter University Name!");
         return false;
     }
-    return true
+    return true;
 }
 
 function showImage(src) {
@@ -34,12 +35,18 @@ genLogo.onclick = function () {
     } catch (error) {
         console.log(error.message);
     }
-    showImage("data:image/png;base64," + response["image"])
+    // to download logo iff generated
+    logoExists = true;
+    showImage("data:image/png;base64," + response["image"]);
 }
 
 document.getElementById("downImg").onclick = function () {
-    let a = document.createElement("a");
-    a.href = finalLogo.src;
-    a.download = "logo.png";
-    a.click();
+    if (logoExists) {
+        let a = document.createElement("a");
+        a.href = finalLogo.src;
+        a.download = "logo.png";
+        a.click();
+    } else {
+        alert("Generate Logo First!!")
+    }
 }
