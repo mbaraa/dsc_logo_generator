@@ -17,7 +17,10 @@ function showImage(src) {
 genLogo.onclick = function () {
     const uniName = document.getElementById("uniName").value;
     const imgColor = document.getElementById("colors").value;
-    let bgColor = document.getElementById("bgColor").value / 10;
+    let bgColor = 1.0;
+    if (document.getElementById("bgColor").checked) {
+        bgColor = 0.0
+    }
 
     if (!checkInput(uniName)) {
         return
