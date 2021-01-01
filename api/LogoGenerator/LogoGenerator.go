@@ -2,10 +2,10 @@ package LogoGenerator
 
 import (
 	"../RGB"
+	"../Resources"
 	"github.com/golang/freetype/truetype"
 	"github.com/ungerik/go-cairo"
 	"golang.org/x/image/math/fixed"
-	"io/ioutil"
 	"math"
 )
 
@@ -31,7 +31,7 @@ func NewLogoGenerator(logo *cairo.Surface, text string, textColor *RGB.RGB, back
 func (this *LogoGenerator) getActualTextLength(textSize float64) float64 {
 	// go to previous commits to see the epic stupid calcs :')
 	var finalLength fixed.Int26_6 = 0
-	psansByte, _ := ioutil.ReadFile("res/ProductSans-Regular.ttf")
+	psansByte := Resources.GetProductSansFont()
 	psansTTF, _ := truetype.Parse(psansByte)
 	for _, chr := range this.Text {
 		finalLength += psansTTF.HMetric(fixed.Int26_6(textSize), psansTTF.Index(chr)).AdvanceWidth

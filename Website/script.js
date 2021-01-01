@@ -18,7 +18,7 @@ genLogo.onclick = function () {
     const uniName = document.getElementById("uniName").value;
     const imgColor = document.getElementById("colors").value;
     let opacity = 1.0;
-    if (document.getElementById("bgColor").checked) {
+    if (document.getElementById("opacity").checked) {
         opacity = 0.0
     }
 
