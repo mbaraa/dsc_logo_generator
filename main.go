@@ -12,7 +12,7 @@ func main() {
 }
 
 func startFrontend() {
-	http.Handle("/", http.FileServer(http.Dir("./Website")))
+	http.Handle("/", http.FileServer(http.Dir("./ui/")))
 	log.Fatal(http.ListenAndServe(":1105", nil))
 }
 
