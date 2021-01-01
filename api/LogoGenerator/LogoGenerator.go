@@ -1,8 +1,9 @@
 package LogoGenerator
 
 import (
-	"../RGB"
+	"../Logo"
 	"../Resources"
+	"../Text"
 	"github.com/golang/freetype/truetype"
 	"github.com/ungerik/go-cairo"
 	"golang.org/x/image/math/fixed"
@@ -10,22 +11,15 @@ import (
 )
 
 type LogoGenerator struct {
-	Logo             *cairo.Surface
-	finalImage       *cairo.Surface
-	height           float64
-	width            float64
-	Text             string
-	actualTextLength float64
-	TextColor        *RGB.RGB
-	bgAlpha          float64
+	height, width float64
+	text          *Text.Text
+	logo          *Logo.Logo
+	bgAlpha       float64
+	finalImage    *cairo.Surface
 }
 
-// the text will appear in Google Sans font
-// I think I'll add a font attribute in the future but...
-func NewLogoGenerator(logo *cairo.Surface, text string, textColor *RGB.RGB, backgroundAlpha float64) *LogoGenerator {
-	return &LogoGenerator{
-		logo, nil,
-		0.0, 0.0, text, 0.0, textColor, backgroundAlpha}
+func NewLogoGenerator(logo *Logo.Logo, text *Text.Text, backgroundAlpha float64) *LogoGenerator {
+	return &LogoGenerator{.0, .0, text, logo, backgroundAlpha, nil}
 }
 
 func (this *LogoGenerator) getActualTextLength(textSize float64) float64 {
@@ -33,7 +27,7 @@ func (this *LogoGenerator) getActualTextLength(textSize float64) float64 {
 	var finalLength fixed.Int26_6 = 0
 	psansByte := Resources.GetProductSansFont()
 	psansTTF, _ := truetype.Parse(psansByte)
-	for _, chr := range this.Text {
+	for _, chr := range this.text.Text {
 		finalLength += psansTTF.HMetric(fixed.Int26_6(textSize), psansTTF.Index(chr)).AdvanceWidth
 	}
 
@@ -43,7 +37,7 @@ func (this *LogoGenerator) getActualTextLength(textSize float64) float64 {
 // I hate recursion, but there's no other way that I can think of :)
 func (this *LogoGenerator) generateTextLength(textSize float64) (float64, float64) {
 	length := this.getActualTextLength(textSize)
-	if length <= float64(this.Logo.GetWidth())*0.85 {
+	if length <= this.logo.Width*0.85 {
 		return length, textSize
 	} else {
 		return this.generateTextLength(textSize - 1)
@@ -51,9 +45,8 @@ func (this *LogoGenerator) generateTextLength(textSize float64) (float64, float6
 }
 
 func (this *LogoGenerator) initDimensions(textSize float64) {
-	this.actualTextLength, _ = this.generateTextLength(textSize)
 	// pretty self explanatory huh ?!
-	shared := math.Max(float64(this.Logo.GetWidth()), float64(this.Logo.GetHeight()))
+	shared := math.Max(this.logo.Width, this.logo.Height)
 	this.width = shared
 	this.height = shared
 }
@@ -71,7 +64,7 @@ func (this LogoGenerator) getCenterStartOfElement(childLength float64, parentLen
 }
 
 // TODO
-// adapt to logo dimensions
+// adapt to logo dimensions ie remove textSize parameter!
 func (this *LogoGenerator) GetLogoWithText(textSize float64) []byte {
 	this.initDimensions(textSize)
 	this.appendText(textSize)
@@ -96,30 +89,31 @@ func (this *LogoGenerator) GetLogoWithTextWithPadding(textSize, paddX, paddY flo
 
 func (this *LogoGenerator) appendText(textSize float64) {
 	_, logoY := this.appendLogo()
-	_, modifiedTextSize := this.generateTextLength(textSize)
+	var modifiedTextSize float64
+	this.text.XLength, modifiedTextSize = this.generateTextLength(textSize)
 	// set font attributes
 	this.finalImage.SelectFontFace("Product Sans", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL)
-	this.finalImage.SetSourceRGB(this.TextColor.GetRGB())
-
+	this.finalImage.SetSourceRGB(this.text.GetColorRGB())
 	this.finalImage.SetFontSize(modifiedTextSize)
+
 	// pre-finally write the given text
 	this.finalImage.MoveTo(
 		this.getCenterStartOfElement(
-			this.actualTextLength, this.width), // in case of text length < logo width
-		(logoY/1.69)+float64(this.Logo.GetHeight()))
+			this.text.XLength, this.width), // in case of text length < logo width
+		(logoY/1.69)+this.logo.Height)
 
-	this.finalImage.ShowText(this.Text)
+	this.finalImage.ShowText(this.text.Text)
 }
 
 func (this *LogoGenerator) appendLogo() (float64, float64) {
-	logoX := this.getCenterStartOfElement(float64(this.Logo.GetWidth()), this.width)
+	logoX := this.getCenterStartOfElement(this.logo.Width, this.width)
 	logoY := this.height / 2
 	// create new empty transparent image
 	this.finalImage = cairo.NewSurface(cairo.FORMAT_ARGB32, int(this.width), int(this.height))
 
 	this.initBackground()
 	// append given logo to the top center of the created image
-	this.finalImage.SetSourceSurface(this.Logo,
+	this.finalImage.SetSourceSurface(this.logo.GetCairoSurface(),
 		logoX,
 		logoY/2) // tp appear a bit above the text
 	this.finalImage.Paint()

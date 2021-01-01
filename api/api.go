@@ -3,15 +3,12 @@ package api
 import (
 	"./Logo"
 	"./LogoGenerator"
-	"./RGB"
 	"./Resources"
-	"bytes"
+	"./Text"
 	"encoding/base64"
 	"encoding/json"
-	"fmt"
 	"github.com/rs/cors"
-	"github.com/ungerik/go-cairo"
-	"image/png"
+	"image/color"
 	"log"
 	"net/http"
 	"strconv"
@@ -39,20 +36,20 @@ func setupResponse(w *http.ResponseWriter) {
 	(*w).Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
 }
 
-func (_ API) getTextColor(imageColor string) string {
+func (_ API) getTextColor(imageColor string) color.RGBA64 {
 	switch imageColor {
-	case "gray":
-		return "676C72"
 	case "colored":
-		return "676C72"
+		return color.RGBA64{103, 108, 114, 0}
+	case "gray":
+		return color.RGBA64{103, 108, 114, 0}
 	case "white":
-		return "FFFFFF"
+		return color.RGBA64{255, 255, 255, 0}
 	default:
-		return ""
+		return color.RGBA64{}
 	}
 }
 
-func getRawLogo(logoColor string) []byte {
+func (_ API) getRawLogo(logoColor string) []byte {
 	switch logoColor {
 	case "colored":
 		return Resources.GetColoredLogo()
@@ -70,28 +67,22 @@ func (this *API) getImage(w http.ResponseWriter, r *http.Request) {
 
 	parameters := r.URL.Query()
 
-	textColor := this.getTextColor(parameters["img_color"][0])
 	imgColor := parameters["img_color"][0]
 	uniName := parameters["uni_name"][0]
 	opacity, _ := strconv.ParseFloat(parameters["opacity"][0], 16)
 
-	rawLogo0, _ := png.Decode(bytes.NewReader(getRawLogo(imgColor)))
-	rawLogo := cairo.NewSurfaceFromImage(rawLogo0)
+	rawLogo := this.getRawLogo(imgColor)
 
-	generator := LogoGenerator.NewLogoGenerator(rawLogo, uniName, RGB.NewFromHex(textColor), opacity)
+	generator := LogoGenerator.NewLogoGenerator(
+		Logo.NewLogo(rawLogo, 1276, 3390),
+		Text.NewText(
+			uniName, this.getTextColor(imgColor), 0, Resources.GetProductSansFont()),
+		opacity)
 
-	content := generator.GetLogoWithTextWithPadding(200.0, 300.0*2.0, 300.0*2.0)
+	newLogoBytes := generator.GetLogoWithTextWithPadding(200.0, 300.0*2.0, 300.0*2.0)
 
-	generator.Logo.Finish()
-	rawLogo.Finish()
+	responseJSON := make(map[string]string, 2)
+	responseJSON["image"] = base64.StdEncoding.EncodeToString(newLogoBytes)
+	json.NewEncoder(w).Encode(responseJSON)
 
-	// dear future me or anyone reading this....
-	// I parsed the array into json in a separate step "instead of json.NewEncoder(w).Encode(img)"
-	// to not fuck up the response with a byte array instead of a regular string :)
-	img := Logo.NewLogo(content, RGB.NewRGB(generator.TextColor.GetRGB()))
-
-	base64.StdEncoding.EncodeToString(content)
-
-	j, _ := json.Marshal(img)
-	fmt.Fprintln(w, string(j))
 }
