@@ -17,16 +17,16 @@ function showImage(src) {
 genLogo.onclick = function () {
     const uniName = document.getElementById("uniName").value;
     const imgColor = document.getElementById("colors").value;
-    let bgColor = 1.0;
+    let opacity = 1.0;
     if (document.getElementById("bgColor").checked) {
-        bgColor = 0.0
+        opacity = 0.0
     }
 
     if (!checkInput(uniName)) {
         return
     }
 
-    const url = "http://127.0.0.1:6969/api/uni_name/" + uniName + "/img_color/" + imgColor + "/bg_color/" + bgColor;
+    const url = "http://127.0.0.1:6969/logo-gen/api/gen?" + "uni_name=" + uniName + "&img_color=" + imgColor + "&opacity=" + opacity;
 
     let xhttp = new XMLHttpRequest();
     xhttp.open("GET", url, false);

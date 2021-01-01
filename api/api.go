@@ -7,7 +7,6 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
-	"github.com/gorilla/mux"
 	"github.com/rs/cors"
 	"github.com/ungerik/go-cairo"
 	"log"
@@ -16,15 +15,15 @@ import (
 )
 
 type API struct {
-	router *mux.Router
+	router *http.ServeMux
 }
 
 func NewAPI() *API {
-	return &API{mux.NewRouter()}
+	return &API{http.NewServeMux()}
 }
 
 func (this *API) Start() {
-	this.router.HandleFunc("/api/uni_name/{uni_name}/img_color/{img_color}/bg_color/{bg_color}", this.getImage).Methods("GET")
+	this.router.HandleFunc("/logo-gen/api/gen", this.getImage) // url/?uni_name=someName&img_color=colored&opacity=1or0
 	// cors for the fucking bitch javascript ie throwing shit like crazy :)
 	handler := cors.Default().Handler(this.router)
 	log.Fatal(http.ListenAndServe(":6969", handler))
@@ -37,7 +36,7 @@ func setupResponse(w *http.ResponseWriter) {
 	(*w).Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
 }
 
-func (_ API) getImageColor(imageColor string) string {
+func (_ API) getTextColor(imageColor string) string {
 	switch imageColor {
 	case "raw-logo-gray":
 		return "676C72"
@@ -53,16 +52,15 @@ func (_ API) getImageColor(imageColor string) string {
 func (this *API) getImage(w http.ResponseWriter, r *http.Request) {
 	setupResponse(&w)
 
-	parameters := mux.Vars(r) // { "uni_name": "eg ASU", "bg_color": "eg #FFFFFF", "img_color": "eg color"}
+	parameters := r.URL.Query()
 
-	// plz use a map for colors blyat!
-	text_color := this.getImageColor(parameters["img_color"])
-	img_color := parameters["img_color"]
-	uni_name := parameters["uni_name"]
+	textColor := this.getTextColor(parameters["img_color"][0])
+	imgColor := parameters["img_color"][0]
+	uniName := parameters["uni_name"][0]
 
-	rawLogo, _ := cairo.NewSurfaceFromPNG(fmt.Sprintf("res/%s.png", img_color))
-	bg_color, _ := strconv.ParseFloat(parameters["bg_color"], 16)
-	gen := LogoGenerator.NewLogoGenerator(rawLogo, uni_name, RGB.NewFromHex(text_color), bg_color)
+	rawLogo, _ := cairo.NewSurfaceFromPNG(fmt.Sprintf("res/%s.png", imgColor))
+	opacity, _ := strconv.ParseFloat(parameters["opacity"][0], 16)
+	gen := LogoGenerator.NewLogoGenerator(rawLogo, uniName, RGB.NewFromHex(textColor), opacity)
 
 	content := gen.GetLogoWithTextWithPadding(200.0, 300.0*2.0, 300.0*2.0)
 
