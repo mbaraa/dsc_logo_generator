@@ -5,8 +5,8 @@
 - [go-cairo](https://github.com/ungerik/go-cairo)
 - [gorilla-mux](https://github.com/gorilla/mux)
 - [go-cors](https://github.com/rs/cors)
-- [fixed](https://pkg.go.dev/golang.org/x/image/math/fixed)
-- [go-ttf](https://github.com/golang/freetype/truetype)
+- [fixed](https://godoc.org/golang.org/x/image/math/fixed)
+- [go-ttf](https://godoc.org/github.com/golang/freetype/truetype)
 
 ### run locally
 1. install deps :)
