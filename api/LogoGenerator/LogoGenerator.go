@@ -2,7 +2,6 @@ package LogoGenerator
 
 import (
 	"../Logo"
-	"../Resources"
 	"../Text"
 	"github.com/golang/freetype/truetype"
 	"github.com/ungerik/go-cairo"
@@ -18,15 +17,15 @@ type LogoGenerator struct {
 	finalImage    *cairo.Surface
 }
 
+// NewLogoGenerator returns a LogoGenerator instance
 func NewLogoGenerator(logo *Logo.Logo, text *Text.Text, backgroundAlpha float64) *LogoGenerator {
 	return &LogoGenerator{.0, .0, text, logo, backgroundAlpha, nil}
 }
 
+// getActualTextLength returns text length depending on text size and unicode size from the given font family
 func (this *LogoGenerator) getActualTextLength(textSize float64) float64 {
-	// go to previous commits to see the epic stupid calcs :')
 	var finalLength fixed.Int26_6 = 0
-	psansByte := Resources.GetProductSansFont()
-	psansTTF, _ := truetype.Parse(psansByte)
+	psansTTF, _ := truetype.Parse(this.text.TextFontFamily)
 	for _, chr := range this.text.Text {
 		finalLength += psansTTF.HMetric(fixed.Int26_6(textSize), psansTTF.Index(chr)).AdvanceWidth
 	}
@@ -34,6 +33,8 @@ func (this *LogoGenerator) getActualTextLength(textSize float64) float64 {
 	return float64(finalLength)
 }
 
+// generateTextLength returns an appropriate text length ie 85% of the logo's width
+// and new textSize after decreasing textLength
 // I hate recursion, but there's no other way that I can think of :)
 func (this *LogoGenerator) generateTextLength(textSize float64) (float64, float64) {
 	length := this.getActualTextLength(textSize)
@@ -44,49 +45,56 @@ func (this *LogoGenerator) generateTextLength(textSize float64) (float64, float6
 	}
 }
 
-func (this *LogoGenerator) initDimensions(textSize float64) {
-	// pretty self explanatory huh ?!
+// initDimensions sets the dimensions of the final image(w/o padding)
+// ie the longest dimension(since we want a square)
+func (this *LogoGenerator) initDimensions() {
 	shared := math.Max(this.logo.Width, this.logo.Height)
 	this.width = shared
 	this.height = shared
 }
 
-// return the coordinate of the first point of the child element
+// getCenterStartOfElement return the coordinate of the first point of the child element
+// hmm you want the math, fine!
+// we have p as the parent's length and c as the child's length soooo
+// we want the coordinate(x or y) that will make the child appear in the middle
+// ie (p-(p-c))/2 the middle of the difference of the the difference between child and parent
+// ok some magical math properties will get us to p-c/2
+// (p-(p-c))/2 = ((p-p)-(p-c))/2
+// = (-(p-c))/2 = |(p-c)/2| SINCE IT'S A LENGTH BLYAT!!
 func (this LogoGenerator) getCenterStartOfElement(childLength float64, parentLength float64) float64 {
 	return math.Abs((parentLength - childLength) / 2.0)
-	// hmm you want the math, fine
-	// we have p as the parent's length and c as the child's length soooo
-	// we want the coordinate(x or y) that will make the child appear in the middle
-	// ie (p-(p-c))/2 the middle of the difference of the the difference between child and parent
-	// ok some magical math properties will get us to p-c/2
-	// (p-(p-c))/2 = ((p-p)-(p-c))/2
-	// = (-(p-c))/2 = |(p-c)/2| SINCE IT'S A LENGTH BLYAT!!
 }
 
+// GetLogoWithText returns a byte array logo
+// with the provided text(instance attribute) with the given text size
 // TODO
-// adapt to logo dimensions ie remove textSize parameter!
+// adapt text size to logo dimensions ie remove textSize parameter!
 func (this *LogoGenerator) GetLogoWithText(textSize float64) []byte {
-	this.initDimensions(textSize)
+	this.initDimensions()
 	this.appendText(textSize)
 
 	byteImg, _ := this.finalImage.WriteToPNGStream()
 	return byteImg
 }
 
+// GetLogoWithTextWithPadding calls GetLogoWithText and adds padding to the final result
 func (this *LogoGenerator) GetLogoWithTextWithPadding(textSize, paddX, paddY float64) []byte {
 	this.GetLogoWithText(textSize)
 
-	newImg := cairo.NewSurface(cairo.FORMAT_ARGB32, int(this.width+paddX), int(this.height+paddY))
-	newImg.SetSourceRGBA(1, 1, 1, this.bgAlpha)
-	newImg.Paint()
-	newImg.SetSourceSurface(this.finalImage, paddX/2, paddY/2)
-	newImg.Paint()
-	this.finalImage = newImg
+	// tmp pointer
+	tmpImg := this.finalImage
+
+	this.finalImage = cairo.NewSurface(cairo.FORMAT_ARGB32, int(this.width+paddX), int(this.height+paddY))
+	this.finalImage.SetSourceRGBA(1, 1, 1, this.bgAlpha)
+	this.finalImage.Paint()
+	this.finalImage.SetSourceSurface(tmpImg, paddX/2, paddY/2)
+	this.finalImage.Paint()
 
 	byteImg, _ := this.finalImage.WriteToPNGStream()
 	return byteImg
 }
 
+// appendText under the appended logo
 func (this *LogoGenerator) appendText(textSize float64) {
 	_, logoY := this.appendLogo()
 	var modifiedTextSize float64
@@ -105,6 +113,7 @@ func (this *LogoGenerator) appendText(textSize float64) {
 	this.finalImage.ShowText(this.text.Text)
 }
 
+// appendLogo adds logo to the middle of the final image
 func (this *LogoGenerator) appendLogo() (float64, float64) {
 	logoX := this.getCenterStartOfElement(this.logo.Width, this.width)
 	logoY := this.height / 2
@@ -121,8 +130,8 @@ func (this *LogoGenerator) appendLogo() (float64, float64) {
 	return logoX, logoY
 }
 
+// initBackground sets the transparency level of the generated logo
 func (this *LogoGenerator) initBackground() {
-	// the optional bg blyat
 	this.finalImage.SetSourceRGBA(1, 1, 1, this.bgAlpha)
 	this.finalImage.Paint()
 }
