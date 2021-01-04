@@ -7,28 +7,12 @@ import (
 	"./Text"
 	"encoding/base64"
 	"encoding/json"
-	"github.com/rs/cors"
 	"image/color"
-	"log"
 	"net/http"
 	"strconv"
 )
 
-type API struct {
-	router *http.ServeMux
-}
-
-func NewAPI() *API {
-	return &API{http.NewServeMux()}
-}
-
-func (this *API) Start() {
-	this.router.HandleFunc("/logo-gen/api/gen", this.getImage) // url/?uni_name=someName&img_color=colored&opacity=1or0
-	// cors for the fucking bitch javascript ie throwing shit like crazy :)
-	handler := cors.Default().Handler(this.router)
-	log.Fatal(http.ListenAndServe(":6969", handler))
-}
-
+// setupResponse sets required response headers.
 func setupResponse(w *http.ResponseWriter) {
 	(*w).Header().Set("Content-Type", "application/json")
 	(*w).Header().Set("Access-Control-Allow-Origin", "*")
@@ -36,7 +20,10 @@ func setupResponse(w *http.ResponseWriter) {
 	(*w).Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
 }
 
-func (_ API) getTextColor(imageColor string) color.RGBA64 {
+// getTextColor returns a color.RGBA64 that represents the text color based on
+// the required logo color-style.
+// if color-style is not recognised it returns a colored logo text :)
+func getTextColor(imageColor string) color.RGBA64 {
 	switch imageColor {
 	case "colored":
 		return color.RGBA64{103, 108, 114, 0}
@@ -45,11 +32,13 @@ func (_ API) getTextColor(imageColor string) color.RGBA64 {
 	case "white":
 		return color.RGBA64{255, 255, 255, 0}
 	default:
-		return color.RGBA64{}
+		return color.RGBA64{103, 108, 114, 0}
 	}
 }
 
-func (_ API) getRawLogo(logoColor string) []byte {
+// getRawLogo returns a byte array of the required logo color-style.
+// if color-style is not recognised it returns a colored logo :)
+func getRawLogo(logoColor string) []byte {
 	switch logoColor {
 	case "colored":
 		return Resources.GetColoredLogo()
@@ -58,31 +47,35 @@ func (_ API) getRawLogo(logoColor string) []byte {
 	case "white":
 		return Resources.GetWhiteLogo()
 	default:
-		return nil
+		return Resources.GetColoredLogo()
 	}
 }
 
-func (this *API) getImage(w http.ResponseWriter, r *http.Request) {
+// GetImage generates a dsc logo based on the given request body it uses
+// GetLogoWithTextWithPadding from the LogoGenerator package to append university
+// name with padding. it works on the very basic 4 steps: 1. get logo properties
+// from the request body, 2. get a proper raw-logo and font color based on image
+// color type 3. pass data to LogoGenerator, and generate a logo :) 4. send the
+// generated b64 image to the response. no error handling is available yet!,
+// since this api is ONLY called from the provided front end.
+func GetImage(w http.ResponseWriter, r *http.Request) {
 	setupResponse(&w)
 
 	parameters := r.URL.Query()
-
 	imgColor := parameters["img_color"][0]
 	uniName := parameters["uni_name"][0]
 	opacity, _ := strconv.ParseFloat(parameters["opacity"][0], 16)
-
-	rawLogo := this.getRawLogo(imgColor)
+	rawLogo := getRawLogo(imgColor)
 
 	generator := LogoGenerator.NewLogoGenerator(
 		Logo.NewLogo(rawLogo, 1276, 3390),
 		Text.NewText(
-			uniName, this.getTextColor(imgColor), 0, Resources.GetProductSansFont()),
+			uniName, getTextColor(imgColor), 0, Resources.GetProductSansFont()),
 		opacity)
 
 	newLogoBytes := generator.GetLogoWithTextWithPadding(200.0, 300.0*2.0, 300.0*2.0)
 
-	responseJSON := make(map[string]string, 2)
+	responseJSON := make(map[string]string)
 	responseJSON["image"] = base64.StdEncoding.EncodeToString(newLogoBytes)
-	json.NewEncoder(w).Encode(responseJSON)
-
+	_ = json.NewEncoder(w).Encode(responseJSON)
 }
