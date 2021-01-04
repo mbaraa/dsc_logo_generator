@@ -23,8 +23,8 @@ func setupResponse(w *http.ResponseWriter) {
 // getTextColor returns a color.RGBA64 that represents the text color based on
 // the required logo color-style.
 // if color-style is not recognised it returns a colored logo text :)
-func getTextColor(imageColor string) color.RGBA64 {
-	switch imageColor {
+func getTextColor(logoColor string) color.RGBA64 {
+	switch logoColor {
 	case "colored":
 		return color.RGBA64{103, 108, 114, 0}
 	case "gray":
@@ -51,6 +51,22 @@ func getRawLogo(logoColor string) []byte {
 	}
 }
 
+// getImageBackground returns a color color.RGBA64 that represents the logo background
+// color based on the logo color-type, if color-style is not recognised
+// it returns a white background
+func getImageBackground(logoColor string, bgTransparency float64) color.RGBA64 {
+	switch logoColor {
+	case "colored":
+		return color.RGBA64{255, 255, 255, uint16(bgTransparency)}
+	case "gray":
+		return color.RGBA64{255, 255, 255, uint16(bgTransparency)}
+	case "white":
+		return color.RGBA64{45, 45, 45, uint16(bgTransparency)}
+	default:
+		return color.RGBA64{0, 0, 0, uint16(bgTransparency)}
+	}
+}
+
 // GetImage generates a dsc logo based on the given request body it uses
 // GetLogoWithTextWithPadding from the LogoGenerator package to append university
 // name with padding. it works on the very basic 4 steps: 1. get logo properties
@@ -71,7 +87,7 @@ func GetImage(w http.ResponseWriter, r *http.Request) {
 		Logo.NewLogo(rawLogo, 1276, 3390),
 		Text.NewText(
 			uniName, getTextColor(imgColor), 0, Resources.GetProductSansFont()),
-		opacity)
+		getImageBackground(imgColor, opacity))
 
 	newLogoBytes := generator.GetLogoWithTextWithPadding(200.0, 300.0*2.0, 300.0*2.0)
 

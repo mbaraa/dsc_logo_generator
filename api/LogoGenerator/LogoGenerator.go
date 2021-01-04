@@ -6,6 +6,7 @@ import (
 	"github.com/golang/freetype/truetype"
 	"github.com/ungerik/go-cairo"
 	"golang.org/x/image/math/fixed"
+	"image/color"
 	"math"
 )
 
@@ -13,13 +14,13 @@ type LogoGenerator struct {
 	height, width float64
 	text          *Text.Text
 	logo          *Logo.Logo
-	bgAlpha       float64
+	bgColor       color.RGBA64
 	finalImage    *cairo.Surface
 }
 
 // NewLogoGenerator returns a LogoGenerator instance
-func NewLogoGenerator(logo *Logo.Logo, text *Text.Text, backgroundAlpha float64) *LogoGenerator {
-	return &LogoGenerator{.0, .0, text, logo, backgroundAlpha, nil}
+func NewLogoGenerator(logo *Logo.Logo, text *Text.Text, backgroundColor color.RGBA64) *LogoGenerator {
+	return &LogoGenerator{.0, .0, text, logo, backgroundColor, nil}
 }
 
 // getActualTextLength returns text length depending on text size and unicode size from the given font family
@@ -85,7 +86,8 @@ func (this *LogoGenerator) GetLogoWithTextWithPadding(textSize, paddX, paddY flo
 	tmpImg := this.finalImage
 
 	this.finalImage = cairo.NewSurface(cairo.FORMAT_ARGB32, int(this.width+paddX), int(this.height+paddY))
-	this.finalImage.SetSourceRGBA(1, 1, 1, this.bgAlpha)
+	this.finalImage.SetSourceRGBA(
+		this.getValidCairoRGBA(this.bgColor))
 	this.finalImage.Paint()
 	this.finalImage.SetSourceSurface(tmpImg, paddX/2, paddY/2)
 	this.finalImage.Paint()
@@ -132,6 +134,15 @@ func (this *LogoGenerator) appendLogo() (float64, float64) {
 
 // initBackground sets the transparency level of the generated logo
 func (this *LogoGenerator) initBackground() {
-	this.finalImage.SetSourceRGBA(1, 1, 1, this.bgAlpha)
+	this.finalImage.SetSourceRGBA(
+		this.getValidCairoRGBA(this.bgColor))
 	this.finalImage.Paint()
+}
+
+// getValidCairoRGBA returns a valid cairo rgba color
+func (_ LogoGenerator) getValidCairoRGBA(rgba color.RGBA64) (float64, float64, float64, float64) {
+	return float64(rgba.R) / 255.0,
+		float64(rgba.G) / 255.0,
+		float64(rgba.B) / 255.0,
+		float64(rgba.A)
 }
