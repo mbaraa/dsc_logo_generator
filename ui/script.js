@@ -51,7 +51,8 @@ document.getElementById("downImg").onclick = function () {
     if (logoExists) {
         let a = document.createElement("a");
         a.href = finalLogo.src;
-        a.download = "DSC " + document.getElementById("uniName").value;
+        a.download = "DSC " + document.getElementById("uniName").value
+            + " " + document.getElementById("colors").value;
         a.click();
     } else {
         alert("Generate Logo First!!")
