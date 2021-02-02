@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>DSC Logo Generator</title>
-    <link href="style.css" rel="stylesheet">
+    <link href="horizontal_dark_style.css" rel="stylesheet">
     <script crossorigin="anonymous" src="https://kit.fontawesome.com/2de1a056cc.js"></script>
 </head>
 <body>
-<h1 class="title">DSC Logo Generator  <a href="dark_index.html">•</a></h1>
+<h1 class="title">DSC Logo Generator  <a href="horizontal_index.html">•</a></h1>
 
 <div class="div0">
-    <label for="opacity">Transparent Background</label>
+    <label for="opacity" style="color: #FFFFFF;">Transparent Background</label>
     <input class="opacity" id="opacity" type="checkbox" value=false>
-    |<label for="colors"> Logo Color Type</label>
+    |<label for="colors" style="color: #FFFFFF;"> Logo Color Type</label>
     <select id="colors" name="colors">
         <option value="colored">Colored</option>
         <option value="gray">Gray</option>
@@ -23,14 +23,14 @@
     <br/><br/>
     <button class="genLogo" id="genLogo">Generate Logo</button>
     <button class="downImg" id="downImg">Download Logo</button>
-    <button class="openHorizontal" id="openHorizontal" onclick="window.location.href='horizontal_index.html'">Switch To Horizontal</button>
+    <button class="openVertical" id="openVertical" onclick="window.location.href='dark_index.html'">Switch To Vertical</button>
 
     <br/></br>
 
     <img class="finalLogo" id="finalLogo"/>
 
 </div>
-<script src="script.js"></script>
+<script src="horizontal_script.js"></script>
 
 <div class="div1">
     <p class="info">

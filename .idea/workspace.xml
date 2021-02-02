@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2c2c2a4e-5dba-4e9d-9da8-0f82dec0de44" name="Default Changelist" comment="" />
+    <list default="true" id="2c2c2a4e-5dba-4e9d-9da8-0f82dec0de44" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/LogoGenerator/LogoGenerator.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/LogoGenerator/LogoGenerator.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/Resources/Resources.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/Resources/Resources.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/api.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/dark_index.html" beforeDir="false" afterPath="$PROJECT_DIR$/ui/dark_index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/dark_style.css" beforeDir="false" afterPath="$PROJECT_DIR$/ui/dark_style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/ui/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/ui/script.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

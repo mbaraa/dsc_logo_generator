@@ -27,21 +27,25 @@ func NewLogoGenerator(logo *Logo.Logo, text *Text.Text, backgroundColor color.RG
 
 // GetLogoWithText returns a byte array logo
 // with the provided text(instance attribute) with the given text size
+// also also logoType determines the type of the generated logo
+// ie: 1 -> vertical, 2 -> horizontal
 // TODO
 // adapt text size to logo dimensions ie remove textSize parameter!
-func (this *LogoGenerator) GetLogoWithText(textSize float64) []byte {
-	this.initDimensions()
-	this.appendText(textSize)
+func (this *LogoGenerator) GetLogoWithText(textSize float64, logoType int) []byte {
+	this.initDimensions(logoType)
+	this.appendText(textSize, logoType)
 
 	byteImg, _ := this.finalImage.WriteToPNGStream()
 	return byteImg
 }
 
 // GetLogoWithTextWithPadding calls GetLogoWithText and adds padding to the final result
-func (this *LogoGenerator) GetLogoWithTextWithPadding(textSize, paddX, paddY float64) []byte {
+// also also logoType determines the type of the generated logo
+// ie: 1 -> vertical, 2 -> horizontal
+func (this *LogoGenerator) GetLogoWithTextWithPadding(textSize, paddX, paddY float64, logoType int) []byte {
 	//this.GetLogoWithText(textSize)
-	this.initDimensions()
-	this.appendText(textSize)
+	this.initDimensions(logoType)
+	this.appendText(textSize, logoType)
 
 	// tmp pointer
 	tmpImg := this.finalImage
@@ -85,10 +89,21 @@ func (this *LogoGenerator) generateTextLength(textSize float64) (float64, float6
 
 // initDimensions sets the dimensions of the final image(w/o padding)
 // ie the longest dimension(since we want a square)
-func (this *LogoGenerator) initDimensions() {
-	shared := math.Max(this.logo.Width, this.logo.Height)
-	this.width = shared
-	this.height = shared
+// also also logoType determines the type of the generated logo
+// ie: 1 -> vertical, 2 -> horizontal
+func (this *LogoGenerator) initDimensions(logoType int) {
+	switch logoType {
+	case 1:
+		shared := math.Max(this.logo.Width, this.logo.Height)
+		this.width = shared
+		this.height = shared
+		break
+
+	case 2:
+		this.width = this.logo.Width
+		this.height = this.logo.Height
+		break
+	}
 }
 
 // getCenterStartOfElement return the coordinate of the first point of the child element
@@ -104,7 +119,9 @@ func (this LogoGenerator) getCenterStartOfElement(childLength float64, parentLen
 }
 
 // appendText under the appended logo
-func (this *LogoGenerator) appendText(textSize float64) {
+// also also logoType determines the type of the generated logo
+// ie: 1 -> vertical, 2 -> horizontal
+func (this *LogoGenerator) appendText(textSize float64, logoType int) {
 	_, logoY := this.appendLogo()
 	var modifiedTextSize float64
 	this.text.XLength, modifiedTextSize = this.generateTextLength(textSize)
@@ -114,10 +131,20 @@ func (this *LogoGenerator) appendText(textSize float64) {
 	this.finalImage.SetFontSize(modifiedTextSize)
 
 	// pre-finally write the given text
-	this.finalImage.MoveTo(
-		this.getCenterStartOfElement(
-			this.text.XLength, this.width), // in case of text length < logo width
-		(logoY/1.69)+this.logo.Height)
+	switch logoType {
+	case 1: // vertical logo
+		this.finalImage.MoveTo(
+			this.getCenterStartOfElement(
+				this.text.XLength, this.width), // in case of text length < logo width
+			logoY*1.345) // add the text strictly under the logo
+		break
+
+	case 2: // horizontal logo
+		// move text's x to 18.9% of the final logo"where the D starts, stupid I know :("
+		// , and y to this value 😆
+		this.finalImage.MoveTo((18.9*this.width)/100, logoY*1.75)
+		break
+	}
 
 	this.finalImage.ShowText(this.text.Text)
 }

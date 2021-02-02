@@ -29,7 +29,7 @@ genLogo.onclick = function () {
         return
     }
 
-    const url = "/logo-gen/api/gen?uni_name=" + uniName + "&img_color=" + imgColor + "&opacity=" + opacity + "&logo_type=1";
+    const url = "/logo-gen/api/gen?uni_name=" + uniName + "&img_color=" + imgColor + "&opacity=" + opacity + "&logo_type=2";
 
     let xhttp = new XMLHttpRequest();
     xhttp.open("GET", url, false);
@@ -52,7 +52,7 @@ document.getElementById("downImg").onclick = function () {
         let a = document.createElement("a");
         a.href = finalLogo.src;
         a.download = "DSC " + document.getElementById("uniName").value
-            + " " + document.getElementById("colors").value + " vertical.png";
+            + " " + document.getElementById("colors").value + " horizontal.png";
         a.click();
     } else {
         alert("whoa hold on!\nare you trying to create a black hole in here??!");
