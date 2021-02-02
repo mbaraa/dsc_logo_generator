@@ -3,10 +3,12 @@ package LogoGenerator
 import (
 	"../Logo"
 	"../Text"
+	"bytes"
 	"github.com/golang/freetype/truetype"
 	"github.com/ungerik/go-cairo"
 	"golang.org/x/image/math/fixed"
 	"image/color"
+	"image/png"
 	"math"
 )
 
@@ -21,6 +23,41 @@ type LogoGenerator struct {
 // NewLogoGenerator returns a LogoGenerator instance
 func NewLogoGenerator(logo *Logo.Logo, text *Text.Text, backgroundColor color.RGBA64) *LogoGenerator {
 	return &LogoGenerator{.0, .0, text, logo, backgroundColor, nil}
+}
+
+// GetLogoWithText returns a byte array logo
+// with the provided text(instance attribute) with the given text size
+// TODO
+// adapt text size to logo dimensions ie remove textSize parameter!
+func (this *LogoGenerator) GetLogoWithText(textSize float64) []byte {
+	this.initDimensions()
+	this.appendText(textSize)
+
+	byteImg, _ := this.finalImage.WriteToPNGStream()
+	return byteImg
+}
+
+// GetLogoWithTextWithPadding calls GetLogoWithText and adds padding to the final result
+func (this *LogoGenerator) GetLogoWithTextWithPadding(textSize, paddX, paddY float64) []byte {
+	//this.GetLogoWithText(textSize)
+	this.initDimensions()
+	this.appendText(textSize)
+
+	// tmp pointer
+	tmpImg := this.finalImage
+
+	this.finalImage = cairo.NewSurface(cairo.FORMAT_ARGB32, int(this.width+paddX), int(this.height+paddY))
+	this.finalImage.SetSourceRGBA(
+		this.getValidCairoRGBA(this.bgColor))
+	this.finalImage.Paint()
+	this.finalImage.SetSourceSurface(tmpImg, paddX/2, paddY/2)
+	this.finalImage.Paint()
+
+	byteImg, _ := this.finalImage.WriteToPNGStream()
+	this.finalImage.Finish()
+	tmpImg.Finish()
+
+	return byteImg
 }
 
 // getActualTextLength returns text length depending on text size and unicode size from the given font family
@@ -66,36 +103,6 @@ func (this LogoGenerator) getCenterStartOfElement(childLength float64, parentLen
 	return math.Abs((parentLength - childLength) / 2.0)
 }
 
-// GetLogoWithText returns a byte array logo
-// with the provided text(instance attribute) with the given text size
-// TODO
-// adapt text size to logo dimensions ie remove textSize parameter!
-func (this *LogoGenerator) GetLogoWithText(textSize float64) []byte {
-	this.initDimensions()
-	this.appendText(textSize)
-
-	byteImg, _ := this.finalImage.WriteToPNGStream()
-	return byteImg
-}
-
-// GetLogoWithTextWithPadding calls GetLogoWithText and adds padding to the final result
-func (this *LogoGenerator) GetLogoWithTextWithPadding(textSize, paddX, paddY float64) []byte {
-	this.GetLogoWithText(textSize)
-
-	// tmp pointer
-	tmpImg := this.finalImage
-
-	this.finalImage = cairo.NewSurface(cairo.FORMAT_ARGB32, int(this.width+paddX), int(this.height+paddY))
-	this.finalImage.SetSourceRGBA(
-		this.getValidCairoRGBA(this.bgColor))
-	this.finalImage.Paint()
-	this.finalImage.SetSourceSurface(tmpImg, paddX/2, paddY/2)
-	this.finalImage.Paint()
-
-	byteImg, _ := this.finalImage.WriteToPNGStream()
-	return byteImg
-}
-
 // appendText under the appended logo
 func (this *LogoGenerator) appendText(textSize float64) {
 	_, logoY := this.appendLogo()
@@ -123,11 +130,18 @@ func (this *LogoGenerator) appendLogo() (float64, float64) {
 	this.finalImage = cairo.NewSurface(cairo.FORMAT_ARGB32, int(this.width), int(this.height))
 
 	this.initBackground()
+
+	img0, _ := png.Decode(bytes.NewReader(this.logo.Image))
+	cairoLogo := cairo.NewSurfaceFromImage(img0)
+
 	// append given logo to the top center of the created image
-	this.finalImage.SetSourceSurface(this.logo.GetCairoSurface(),
+	this.finalImage.SetSourceSurface(cairoLogo,
 		logoX,
 		logoY/2) // tp appear a bit above the text
 	this.finalImage.Paint()
+
+	cairoLogo.Finish()
+	cairoLogo.Destroy()
 
 	return logoX, logoY
 }

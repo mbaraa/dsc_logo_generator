@@ -46,21 +46,18 @@ body, button, select, option {
     width: 100%;
 }
 
-.div1 {
-    position: fixed;
-    text-align: center;
-    margin: auto;
-    width: 100%;
-}
-
-.div2 {
+.div0 {
     position: relative;
     text-align: center;
     margin: auto;
-    width: 100%;
+    width: auto;
+    height: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 20px;
 }
 
-.div3 {
+.div1 {
     position: relative;
 }
 

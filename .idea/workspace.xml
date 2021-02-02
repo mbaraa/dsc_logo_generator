@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2c2c2a4e-5dba-4e9d-9da8-0f82dec0de44" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/API/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Website/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/Website/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Website/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/Website/script.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Website/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/Website/style.css" afterDir="false" />
-    </list>
+    <list default="true" id="2c2c2a4e-5dba-4e9d-9da8-0f82dec0de44" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -50,6 +44,7 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="restartRequiresConfirmation" value="false" />
+    <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -58,7 +53,15 @@
       <recent name="$PROJECT_DIR$/API" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Go Build.go build main.go (1)">
+    <configuration name="go build main.go (1)" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="dsc_logo_generator" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <filePath value="$PROJECT_DIR$/main.go" />
+      <directory value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
     <configuration name="go build main.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="dsc_logo_generator" />
       <working_directory value="$PROJECT_DIR$" />
@@ -69,6 +72,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Build.go build main.go (1)" />
         <item itemvalue="Go Build.go build main.go" />
       </list>
     </recent_temporary>

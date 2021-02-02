@@ -63,7 +63,7 @@ func getImageBackground(logoColor string, bgTransparency float64) color.RGBA64 {
 	case "white":
 		return color.RGBA64{45, 45, 45, uint16(bgTransparency)}
 	default:
-		return color.RGBA64{0, 0, 0, uint16(bgTransparency)}
+		return color.RGBA64{255, 255, 255, uint16(bgTransparency)}
 	}
 }
 

@@ -5,7 +5,7 @@ let logoExists = false;
 // checkInput returns if the input field is empty or not
 function checkInput(uniName) {
     if (uniName === "") {
-        alert("Enter University Name!");
+        alert("Hmm.. a nameless university!");
         return false;
     }
     return true;
@@ -16,7 +16,7 @@ function showImage(src) {
     finalLogo.src = src
 }
 
-// genlogo retrieves a generated logo from the given attributes
+// genLogo retrieves a generated logo from the given attributes
 genLogo.onclick = function () {
     const uniName = document.getElementById("uniName").value;
     const imgColor = document.getElementById("colors").value;
@@ -29,7 +29,7 @@ genLogo.onclick = function () {
         return
     }
 
-    const url = "http://127.0.0.1:1105/logo-gen/api/gen?" + "uni_name=" + uniName + "&img_color=" + imgColor + "&opacity=" + opacity;
+    const url = "/logo-gen/api/gen?uni_name=" + uniName + "&img_color=" + imgColor + "&opacity=" + opacity;
 
     let xhttp = new XMLHttpRequest();
     xhttp.open("GET", url, false);
@@ -55,6 +55,6 @@ document.getElementById("downImg").onclick = function () {
             + " " + document.getElementById("colors").value;
         a.click();
     } else {
-        alert("Generate Logo First!!")
+        alert("whoa hold on!\nare you trying to create a black hole in here??!");
     }
 }

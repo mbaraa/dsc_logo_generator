@@ -7,7 +7,7 @@ import (
 )
 
 type Logo struct {
-	Image         []byte `json:"image"`
+	Image         []byte
 	Height, Width float64
 }
 
