@@ -1,4 +1,6 @@
-# DSC Vertical Logo Generator 
+# DSC Logo Generator 
+
+[![GoDoc](https://godoc.org/github.com/baraa-almasri/dsc_logo_generator?status.png)](https://godoc.org/github.com/baraa-almasri/dsc_logo_generator) [![Go Report Card](https://goreportcard.com/badge/github.com/baraa-almasri/dsc_logo_generator)](https://goreportcard.com/report/github.com/baraa-almasri/dsc_logo_generator)
 
 ## dependencies:
 - [go-cairo](https://github.com/ungerik/go-cairo)
