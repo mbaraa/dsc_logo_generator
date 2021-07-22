@@ -7,34 +7,22 @@
             DSC Logo Generator
         </span>
 
-        <FontAwesomeIcon class="themeSwitcher" icon="moon"
-                         @click="changeTheme" title="click to toggle dark mode"/>
+        <DarkModeToggle class="themeSwitcher" title="click to toggle dark mode"/>
     </div>
 </template>
 
 <script>
-
-import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
-import {faMoon} from "@fortawesome/free-solid-svg-icons";
-import {library} from "@fortawesome/fontawesome-svg-core";
-
-// font awesome
-library.add(faMoon)
+import DarkModeToggle from "./DarkModeToggle";
 
 export default {
     name: "TopBar",
     components: {
-        FontAwesomeIcon
+        DarkModeToggle,
     },
     data() {
         return {
             isDarkMode: false,
             theme: this.$store.getters.getTheme
-        }
-    },
-    methods: {
-        changeTheme() {
-            this.$store.dispatch("changeTheme")
         }
     },
 }
@@ -52,11 +40,10 @@ export default {
 }
 
 .themeSwitcher {
-    position: fixed;
+    position: absolute;
     display: inline;
     text-align: right;
     right: 1.5%;
-    cursor: pointer;
 }
 
 </style>

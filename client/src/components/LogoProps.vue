@@ -2,22 +2,25 @@
     <div class="base" :style="{
         color: $store.getters.getTheme.font_color,
     }">
-        <label for="opacity">Transparent Background</label>
-        <input class="opacity" id="opacity" type="checkbox" value=false
-               v-model="opacity">
-
-        |<label for="colors"> Logo Color Type</label>&nbsp;
-        <select id="colors" name="colors" @change="setLogoColor" v-model="logo.color">
-            <option value="color">Colored</option>
-            <option value="gray">Gray</option>
-            <option value="white">White</option>
-        </select>
+        <div class="prop">
+            <label for="opacity">Transparent Background</label>
+            <input id="opacity" type="checkbox" value=false v-model="opacity">
+            |
+            <label for="colors"> Logo Color Type</label>&nbsp;
+            <select id="colors" name="colors" @change="setLogoColor" v-model="logo.color">
+                <option value="color">Colored</option>
+                <option value="gray">Gray</option>
+                <option value="white">White</option>
+            </select>
+        </div>
 
         <input type="text" @keyup="setLogoText" v-model="logo.text" placeholder="University Name"
                class="uniName prop"/>
 
-        <button class="genLogo" title="generate and download the current logo" @click="generateAndDownloadLogo">Download Logo
+        <button class="genLogo" title="generate and download the current logo" @click="generateAndDownloadLogo">Download
+            Logo
         </button>
+
         <!--        <button class="openHorizontal" id="openHorizontal" onclick="window.location.href='horizontal_index.html'">Switch To Horizontal</button>-->
         <!-- Logo goes brr -->
         <Logo/>
@@ -27,6 +30,7 @@
 
 <script>
 import Logo from "./Logo";
+
 export default {
     name: "LogoProps",
     components: {Logo},
@@ -47,7 +51,7 @@ export default {
             this.setLogo();
         },
         updateOpacity() {
-            this.logo.opacity = this.opacity? 0: 1;
+            this.logo.opacity = this.opacity ? 0 : 1;
         },
         verifyLogoText() {
             return (this.logo.text !== "");
@@ -74,14 +78,17 @@ export default {
             }
         },
         async getLogoFromServer() {
-            const url = `http://127.0.0.1:1105/logo-gen/api/gen?uni_name=${this.logo.text}&img_color=${this.logo.color}&opacity=${this.logo.opacity}&logo_type=1`;
-            await fetch(url)
+            const url = `http://127.0.0.1:1105/api/genlogo/?uni_name=${this.logo.text}&img_color=${this.logo.color}&opacity=${this.logo.opacity}&logo_type=1`;
+            await fetch(url, {
+                method: "GET",
+                mode: "cors",
+            })
                 .then(resp => resp.json())
                 .then(data => {
                     let a = document.createElement("a");
 
                     a.href = `data:image/png;base64,${data["image"]}`;
-                    a.download = `DSC ${this.logo.text} ${this.logo.orientation}`;
+                    a.download = `DSC ${this.logo.text} ${this.logo.orientation} ${this.logo.color}`;
                     a.click();
                 })
         },
@@ -99,16 +106,13 @@ export default {
     overflow-x: hidden;
     overflow-y: auto;
     padding-top: 20px;
-
-    font-family: ProductSans;
-    font-size: 1.1em;
 }
 
 .uniName {
-    height: 30px;
+    height: 40px;
     width: 500px;
     font-size: 1.2em;
-
+    border-radius: 5px;
 }
 
 .genLogo {
@@ -118,5 +122,7 @@ export default {
 .prop {
     display: block;
     margin: 10px auto;
+    font-size: 1.3em;
+    width: 500px;
 }
 </style>

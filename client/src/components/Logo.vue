@@ -1,10 +1,10 @@
 <template>
     <div title="the downloaded logo may vary than this one!" :style="{
-    borderColor: $store.getters.getTheme.border_color,
     'background-image': 'url('+ String($store.getters.getLogo.image_path) +')',
+    'box-shadow': $store.getters.getTheme.border_color+ ' 1px 1px 5px 2px',
     color: $store.getters.getLogo.text_color,
     }" class="logo">
-        <p  class="text">{{$store.getters.getLogo.text}}</p >
+        <p class="text">{{ $store.getters.getLogo.text }}</p>
     </div>
 </template>
 
@@ -21,7 +21,7 @@ export default {
     height: 500px;
     position: relative;
     margin: 20px auto;
-    border: solid 5px;
+    border-radius: 5px;
 }
 
 .text {

@@ -32,6 +32,7 @@ export default {
 
 #app {
     height: 100%;
+    font-family: ProductSans;
 }
 
 </style>
