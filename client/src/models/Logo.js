@@ -1,15 +1,15 @@
 export default class Logo {
-    text;
+    $text;
     $opacity;
     $image_path;
-    $text_color;
     $color;
     $orientation;
+    $width;
 
     constructor(color, text, orientation) {
         this.$color = color;
         this.$orientation = orientation;
-        this.text = text;
+        this.$text = text;
 
         // setters
         this.color = color;
@@ -22,16 +22,16 @@ export default class Logo {
         return this.$image_path;
     }
 
-    get text_color() {
-        return this.$text_color;
-    }
-
     get color() {
         return this.$color;
     }
 
     get orientation() {
         return this.$orientation;
+    }
+
+    get width() {
+        return this.$width;
     }
 
     get opacity() {
@@ -44,13 +44,21 @@ export default class Logo {
         return this;
     }
 
+    get text() {
+        return this.$text;
+    }
+
+    set text(text) {
+        this.$text.text = text;
+    }
+
     /**
      * Sets logo's color, and sets a proper color for the text.
      * @param {string} color
      * */
     set color(color) {
         this.$color = color;
-        this.$text_color = color !== "white" ? "#676c72" : "#FFFFFF";
+        this.$text.color = color !== "white" ? "#676c72" : "#FFFFFF";
         this.$updateImagePath();
 
         return this
@@ -63,10 +71,17 @@ export default class Logo {
     set orientation(orientation) {
         if (orientation === "vertical" || orientation === "horizontal") {
             this.$orientation = orientation;
+            this.$width = orientation === "vertical" ? "500px" : "1050px";
             this.$updateImagePath();
+            // adapt text to the new orientation
+            this.$text.changeOrientation(orientation);
         }
 
         return this
+    }
+
+    changeOrientation() {
+        this.orientation = this.$orientation === "vertical"? "horizontal": "vertical";
     }
 
     $updateImagePath() {

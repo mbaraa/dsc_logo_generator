@@ -3,18 +3,18 @@
         color: $store.getters.getTheme.font_color,
     }">
         <div class="prop">
-            <label for="opacity">Transparent Background</label>
-            <input id="opacity" type="checkbox" value=false v-model="opacity">
+            <label for="opacity">Background</label>&nbsp;
+            <button id="opacity" @click="updateOpacity"> {{ makeTitle(bg) }} </button>
             |
-            <label for="colors"> Logo Color Type</label>&nbsp;
+            <label for="colors"> Color Type</label>&nbsp;
             <select id="colors" name="colors" @change="setLogoColor" v-model="logo.color">
                 <option value="color">Colored</option>
                 <option value="gray">Gray</option>
                 <option value="white">White</option>
             </select>
             |
-            <label>Orientation</label>
-            <button @click="changeOrientation">Change</button>
+            <label>Orientation</label>&nbsp;
+            <button @click="changeOrientation">{{ makeTitle(logo.orientation) }}</button>
         </div>
 
         <input type="text" @keyup="setLogoText" v-model="logo.text.text" placeholder="University Name"
@@ -47,10 +47,8 @@ export default {
     data() {
         return {
             logo: this.$store.getters.getLogo,
-            opacity: false,
+            bg: "opaque",
         }
-    },mounted() {
-        console.log(this.logo)
     },
     methods: {
         setLogo() {
@@ -64,21 +62,17 @@ export default {
             this.setLogo();
         },
         updateOpacity() {
-            this.logo.opacity = this.opacity ? 0 : 1;
+            console.log(this.bg)
+            this.bg = this.bg === "opaque"? "transparent": "opaque";
+            this.logo.opacity = this.opacity === "opaque" ? 1 : 0;
         },
         verifyLogoText() {
             return (this.logo.text !== "");
-        },
-        verifyLogoTextLength() {
-            return (this.logo.text.length <= 66);
         },
         verifyLogoData() {
             if (!this.verifyLogoText()) {
                 window.alert("Hmm... a nameless university!");
                 return false;
-            }
-            if (!this.verifyLogoTextLength()) {
-                window.alert("The generated logo may differ from this one!");
             }
             return true;
         },
@@ -131,6 +125,9 @@ export default {
         },
         changeOrientation() {
             this.logo.changeOrientation();
+        },
+        makeTitle(str) {
+            return str.charAt(0).toUpperCase() + str.substring(1);
         }
     }
 }
@@ -150,7 +147,7 @@ export default {
 
 .uniName {
     height: 40px;
-    width: 320px;
+    width: 330px;
     font-size: 1.2em;
     border-radius: 5px;
 }
@@ -164,7 +161,7 @@ export default {
 .prop {
     display: block;
     margin: 10px auto;
-    font-size: 1.1em;
-    width: 500px;
+    font-size: 1em;
+    width: 550px;
 }
 </style>
