@@ -1,7 +1,6 @@
-package Resources
+package api
 
 import (
-	"../Logo"
 	"encoding/base64"
 )
 
@@ -46,33 +45,33 @@ func GetB64WhiteHorizontalLogo() string {
 }
 
 // GetColoredLogo returns a colored horizontal raw dsc logo
-func GetColoredLogo() *Logo.Logo {
-	return Logo.NewLogo(getByteFile(GetB64ColoredLogo()), 1276, 3390)
+func GetColoredLogo() *Logo {
+	return NewLogo(getByteFile(GetB64ColoredLogo()), 1276, 3390)
 }
 
 // GetGrayLogo returns a colored horizontal raw dsc logo
-func GetGrayLogo() *Logo.Logo {
-	return Logo.NewLogo(getByteFile(GetB64GrayLogo()), 1276, 3390)
+func GetGrayLogo() *Logo {
+	return NewLogo(getByteFile(GetB64GrayLogo()), 1276, 3390)
 }
 
 // GetWhiteLogo returns a colored horizontal raw dsc logo
-func GetWhiteLogo() *Logo.Logo {
-	return Logo.NewLogo(getByteFile(GetB64WhiteLogo()), 1276, 3390)
+func GetWhiteLogo() *Logo {
+	return NewLogo(getByteFile(GetB64WhiteLogo()), 1276, 3390)
 }
 
 // GetColoredHorizontalLogo returns a colored horizontal raw dsc logo
-func GetColoredHorizontalLogo() *Logo.Logo {
-	return Logo.NewLogo(getByteFile(GetB64ColoredHorizontalLogo()), 857, 4050)
+func GetColoredHorizontalLogo() *Logo {
+	return NewLogo(getByteFile(GetB64ColoredHorizontalLogo()), 857, 4050)
 }
 
 // GetGrayHorizontalLogo returns a colored horizontal raw dsc logo
-func GetGrayHorizontalLogo() *Logo.Logo {
-	return Logo.NewLogo(getByteFile(GetB64GrayHorizontalLogo()), 857, 4050)
+func GetGrayHorizontalLogo() *Logo {
+	return NewLogo(getByteFile(GetB64GrayHorizontalLogo()), 857, 4050)
 }
 
 // GetWhiteHorizontalLogo returns a colored horizontal raw dsc logo
-func GetWhiteHorizontalLogo() *Logo.Logo {
-	return Logo.NewLogo(getByteFile(GetB64WhiteHorizontalLogo()), 857, 4050)
+func GetWhiteHorizontalLogo() *Logo {
+	return NewLogo(getByteFile(GetB64WhiteHorizontalLogo()), 857, 4050)
 }
 
 func F() []byte {

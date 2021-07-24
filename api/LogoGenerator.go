@@ -1,27 +1,26 @@
-package LogoGenerator
+package api
 
 import (
-	"../Logo"
-	"../Text"
 	"bytes"
-	"github.com/golang/freetype/truetype"
-	"github.com/ungerik/go-cairo"
-	"golang.org/x/image/math/fixed"
 	"image/color"
 	"image/png"
 	"math"
+
+	"github.com/golang/freetype/truetype"
+	"github.com/ungerik/go-cairo"
+	"golang.org/x/image/math/fixed"
 )
 
 type LogoGenerator struct {
 	height, width float64
-	text          *Text.Text
-	logo          *Logo.Logo
+	text          *Text
+	logo          *Logo
 	bgColor       color.RGBA64
 	finalImage    *cairo.Surface
 }
 
 // NewLogoGenerator returns a LogoGenerator instance
-func NewLogoGenerator(logo *Logo.Logo, text *Text.Text, backgroundColor color.RGBA64) *LogoGenerator {
+func NewLogoGenerator(logo *Logo, text *Text, backgroundColor color.RGBA64) *LogoGenerator {
 	return &LogoGenerator{.0, .0, text, logo, backgroundColor, nil}
 }
 

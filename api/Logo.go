@@ -1,9 +1,10 @@
-package Logo
+package api
 
 import (
 	"bytes"
-	"github.com/ungerik/go-cairo"
 	"image/png"
+
+	"github.com/ungerik/go-cairo"
 )
 
 type Logo struct {

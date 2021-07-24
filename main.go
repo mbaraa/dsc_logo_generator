@@ -1,10 +1,10 @@
 package main
 
 import (
-	"./api"
-	"github.com/rs/cors"
 	"log"
 	"net/http"
+
+	"github.com/mbaraa/dsc_logo_generator/api"
 )
 
 func main() {
@@ -16,9 +16,8 @@ func main() {
 // then start the server
 func startServer() {
 	router := http.NewServeMux()
-	router.Handle("/", http.FileServer(http.Dir("./ui/")))
-	router.HandleFunc("/logo-gen/api/gen", api.GetLogo) // url?uni_name=someName&img_color=colored|gray|white&opacity=1|0&logo_type=1|2
-	// cors for the fucking bitch javascript ie throwing shit like crazy :)
-	handler := cors.Default().Handler(router)
-	log.Fatal(http.ListenAndServe(":1105", handler))
+	router.Handle("/", http.FileServer(http.Dir("./client/dist/")))
+
+	router.HandleFunc("/api/genlogo/", api.GetLogo) // url?uni_name=someName&img_color=colored|gray|white&opacity=1|0&logo_type=1|2
+	log.Fatal(http.ListenAndServe(":1105", router))
 }

@@ -1,10 +1,6 @@
 package api
 
 import (
-	"./Logo"
-	"./LogoGenerator"
-	"./Resources"
-	"./Text"
 	"encoding/base64"
 	"encoding/json"
 	"image/color"
@@ -14,10 +10,10 @@ import (
 
 // setupResponse sets required response headers.
 func setupResponse(w *http.ResponseWriter) {
-	(*w).Header().Set("Content-Type", "application/json")
+	(*w).Header().Set("Content-Type", "application/json; charset=UTF-8")
 	(*w).Header().Set("Access-Control-Allow-Origin", "*")
-	(*w).Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
-	(*w).Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+	(*w).Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
+	(*w).Header().Set("Access-Control-Allow-Headers", "Content-Type")
 }
 
 // getTextColor returns a color.RGBA64 that represents the text color based on
@@ -36,22 +32,22 @@ func getTextColor(logoColor string) color.RGBA64 {
 
 // getRawLogo returns a byte array of the required logo color-style.
 // if color-style is not recognised it returns a colored logo :)
-func getRawLogo(logoColor string) *Logo.Logo {
+func getRawLogo(logoColor string) *Logo {
 	switch logoColor {
-	case "v-colored":
-		return Resources.GetColoredLogo()
+	case "v-color":
+		return GetColoredLogo()
 	case "v-gray":
-		return Resources.GetGrayLogo()
+		return GetGrayLogo()
 	case "v-white":
-		return Resources.GetWhiteLogo()
-	case "h-colored":
-		return Resources.GetColoredHorizontalLogo()
+		return GetWhiteLogo()
+	case "h-color":
+		return GetColoredHorizontalLogo()
 	case "h-gray":
-		return Resources.GetGrayHorizontalLogo()
+		return GetGrayHorizontalLogo()
 	case "h-white":
-		return Resources.GetWhiteHorizontalLogo()
+		return GetWhiteHorizontalLogo()
 	default:
-		return Resources.GetColoredLogo()
+		return GetColoredLogo()
 	}
 }
 
@@ -60,7 +56,7 @@ func getRawLogo(logoColor string) *Logo.Logo {
 // it returns a white background
 func getImageBackground(logoColor string, bgTransparency float64) color.RGBA64 {
 	switch logoColor {
-	case "v-colored", "v-gray", "h-colored", "h-gray":
+	case "v-color", "v-gray", "h-color", "h-gray":
 		return color.RGBA64{R: 255, G: 255, B: 255, A: uint16(bgTransparency)}
 	case "v-white", "h-white":
 		return color.RGBA64{R: 45, G: 45, B: 45, A: uint16(bgTransparency)}
@@ -101,10 +97,10 @@ func GetLogo(w http.ResponseWriter, r *http.Request) {
 
 	rawLogo := getRawLogo(imgColor)
 
-	generator := LogoGenerator.NewLogoGenerator(
+	generator := NewLogoGenerator(
 		rawLogo,
-		Text.NewText(
-			uniName, getTextColor(imgColor), 0, Resources.GetProductSansFont()),
+		NewText(
+			uniName, getTextColor(imgColor), 0, GetProductSansFont()),
 		getImageBackground(imgColor, opacity))
 
 	newLogoBytes := generator.GetLogoWithTextWithPadding(200.0, xPadding, yPadding, int(logoType))

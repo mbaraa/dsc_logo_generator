@@ -1,4 +1,4 @@
-package Text
+package api
 
 import (
 	"image/color"
