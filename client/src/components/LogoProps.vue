@@ -62,9 +62,10 @@ export default {
             this.setLogo();
         },
         updateOpacity() {
-            console.log(this.bg)
             this.bg = this.bg === "opaque"? "transparent": "opaque";
-            this.logo.opacity = this.opacity === "opaque" ? 1 : 0;
+        },
+        getOpacity() {
+            this.logo.opacity = this.bg === "opaque" ? 1: 0;
         },
         verifyLogoText() {
             return (this.logo.text !== "");
@@ -78,7 +79,7 @@ export default {
         },
         generateAndDownloadLogo() {
             if (this.verifyLogoData()) {
-                this.updateOpacity();
+                this.getOpacity();
                 this.setLogo();
 
                 this.getLogoFromServer();
@@ -118,7 +119,7 @@ export default {
                         -0.04 + Number(this.logo.text.size.substring(0, textStringLength - 2))
                     ) + "em";
             } else {
-                this.logo.text.resetTextSize();
+                this.logo.text.resetTextSize(this.logo.orientation);
             }
 
             this.setLogo();
