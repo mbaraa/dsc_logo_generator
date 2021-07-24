@@ -88,7 +88,7 @@ export default {
             return this.logo.orientation === "vertical"? 1:2;
         },
         async getLogoFromServer() {
-            const url = `http://127.0.0.1:1105/api/genlogo/?uni_name=${this.logo.text.text}&img_color=${this.logo.color}&opacity=${this.logo.opacity}&logo_type=${this.getLogoOrientation()}`;
+            const url = `/api/genlogo/?uni_name=${this.logo.text.text}&img_color=${this.logo.color}&opacity=${this.logo.opacity}&logo_type=${this.getLogoOrientation()}`;
             await fetch(url, {
                 method: "GET",
                 mode: "cors",
