@@ -13,7 +13,7 @@ export default class ThemeChooser {
     }
 
     $initLightTheme() {
-        this.$light_theme = new Theme("#2c3e50", "#FFFFFF", "#DDDDDD", "#2c3e50", "#FFFFFF", "#000000");
+        this.$light_theme = new Theme("#2c3e50", "#FFFFFF", "#BCBCBC", "#2c3e50", "#FFFFFF", "#000000");
     }
 
     $initDarkTheme() {
