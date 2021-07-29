@@ -17,7 +17,7 @@ export default class ThemeChooser {
     }
 
     $initDarkTheme() {
-        this.$dark_theme = new Theme("#FFFFFF", "#151D2B", "#2c3e50", "#FFFFFF", "#FFFFFF", "#2288F0");
+        this.$dark_theme = new Theme("#FFFFFF", "#2d333b", "#22272e", "#FFFFFF", "#FFFFFF", "#2288F0");
     }
 
     getTheme() {

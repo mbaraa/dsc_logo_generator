@@ -4,30 +4,27 @@
     }">
         <div class="prop">
             <label for="opacity">Background</label>&nbsp;
-            <button id="opacity" @click="updateOpacity"> {{ makeTitle(bg) }} </button>
+            <button id="opacity" @click="updateOpacity"> {{ makeTitle(bg) }}</button>
             |
-            <label for="colors"> Color Type</label>&nbsp;
-            <select id="colors" name="colors" @change="setLogoColor" v-model="logo.color">
-                <option value="color">Colored</option>
-                <option value="gray">Gray</option>
-                <option value="white">White</option>
-            </select>
+            <label> Color Type</label>
+            <FontAwesomeIcon :icon="{prefix: 'fas', iconName: 'palette'}"
+                             :class="getColorChangerStyleClass()" class="colorChanger"
+                             @click="changeColorType" :title="getColorType() + ' : click to change the logo\'s color!'"/>
+
             |
-            <label>Orientation</label>&nbsp;
-            <button @click="changeOrientation">{{ makeTitle(logo.orientation) }}</button>
+            <label>Orientation</label>
+            <img src="/orientation.png" alt="orientation" class="orientation"
+                 @click="changeOrientation" title="click to change the logo's orientation!"/>
         </div>
 
         <input type="text" @keyup="setLogoText" v-model="logo.text.text" placeholder="University Name"
                class="uniName" @keyup.enter="generateAndDownloadLogo"/>
         &nbsp;
         <button class="genLogo" title="generate and download the current logo"
-                @click="generateAndDownloadLogo" :style="{
-                    backgroundColor: $store.getters.getTheme.top_bar_bg_color,
-                }" style="box-shadow: rgba(0, 0, 0, 0) 0 0; border-radius: 5px">
+                @click="generateAndDownloadLogo">
             Download Logo
         </button>
 
-        <!--        <button class="openHorizontal" id="openHorizontal" onclick="window.location.href='horizontal_index.html'">Switch To Horizontal</button>-->
         <!-- Logo goes brr -->
         <VerticalLogo v-if="logo.orientation.charAt(0) === 'v'"/>
         <HorizontalLogo v-if="logo.orientation.charAt(0) === 'h'"/>
@@ -38,34 +35,40 @@
 import VerticalLogo from "./VerticalLogo.vue";
 import HorizontalLogo from "./HorizontalLogo.vue";
 
+import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
+import {faPalette} from "@fortawesome/free-solid-svg-icons";
+import {library} from "@fortawesome/fontawesome-svg-core";
+// font awesome
+library.add(faPalette);
+
 export default {
     name: "LogoProps",
     components: {
         VerticalLogo,
-        HorizontalLogo
+        HorizontalLogo,
+        FontAwesomeIcon
     },
     data() {
         return {
             logo: this.$store.getters.getLogo,
             bg: "opaque",
+            colors: ["color", "gray", "white"],
+            colorIndex: 0,
         }
     },
     methods: {
         setLogo() {
             this.$store.dispatch("setLogo", this.logo);
         },
-        setLogoColor() {
-            this.setLogo();
-        },
         setLogoText() {
             this.updateFontSize()
             this.setLogo();
         },
         updateOpacity() {
-            this.bg = this.bg === "opaque"? "transparent": "opaque";
+            this.bg = this.bg === "opaque" ? "transparent" : "opaque";
         },
         getOpacity() {
-            this.logo.opacity = this.bg === "opaque" ? 1: 0;
+            this.logo.opacity = this.bg === "opaque" ? 1 : 0;
         },
         verifyLogoText() {
             return (this.logo.text !== "");
@@ -86,7 +89,7 @@ export default {
             }
         },
         getLogoOrientation() {
-            return this.logo.orientation === "vertical"? 1:2;
+            return this.logo.orientation === "vertical" ? 1 : 2;
         },
         async getLogoFromServer() {
             const url = `/api/genlogo/?uni_name=${this.logo.text.text}&img_color=${this.logo.color}&opacity=${this.logo.opacity}&logo_type=${this.getLogoOrientation()}`;
@@ -127,6 +130,23 @@ export default {
         changeOrientation() {
             this.logo.changeOrientation();
         },
+        getColorType() {
+            return this.colors[this.colorIndex];
+        },
+        changeColorType() {
+            this.colorIndex = (this.colorIndex + 1) % 3;
+            this.logo.color = this.colors[this.colorIndex];
+        },
+        getColorChangerStyleClass() {
+            switch (this.colors[this.colorIndex]) {
+                case "color":
+                    return "colorChangerColored";
+                case "gray":
+                    return "colorChangerGray";
+                case "white":
+                    return "colorChangerWhite";
+            }
+        },
         makeTitle(str) {
             return str.charAt(0).toUpperCase() + str.substring(1);
         }
@@ -154,15 +174,58 @@ export default {
 }
 
 .genLogo {
-    font-size: 1.15em;
-    height: 44px;
+    font-size: 1em;
     cursor: pointer;
+
+    background-color: #4CAF50;
+    border: none;
+    color: #FFFFFF;
+    padding: 12px 15px;
+    border-radius: 5px
 }
 
 .prop {
     display: block;
     margin: 10px auto;
-    font-size: 1em;
+    font-size: 1.2em;
     width: 550px;
+}
+
+.orientation {
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    padding: 2px;
+    border-radius: 5px;
+    vertical-align: middle;
+}
+
+.orientation:hover {
+    background-color: #2C98CA;
+}
+
+.colorChanger {
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    padding: 2px;
+    border-radius: 5px;
+    vertical-align: middle;
+}
+
+.colorChanger:hover {
+    background-color: #2C98CA;
+}
+
+.colorChangerColored {
+    color: #ff006f;
+}
+
+.colorChangerGray {
+    color: #BFCBD9;
+}
+
+.colorChangerWhite {
+    color: #000000;
 }
 </style>
