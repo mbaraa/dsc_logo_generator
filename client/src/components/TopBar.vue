@@ -3,7 +3,8 @@
         backgroundColor: $store.getters.getTheme.top_bar_bg_color,
         color: $store.getters.getTheme.top_bar_font_color,
     }">
-        <span>
+        <img src="/gdg_logo.png" class="gdgLogo"/>
+        <span style="display: inline;">
             DSC Logo Generator
         </span>
 
@@ -36,7 +37,6 @@ export default {
 
     position: sticky;
     padding: 15px;
-
 }
 
 .themeSwitcher {
@@ -46,4 +46,10 @@ export default {
     right: 1.5%;
 }
 
+.gdgLogo {
+    vertical-align: middle;
+    display: inline;
+    width: 55px;
+    height: 55px;
+}
 </style>
