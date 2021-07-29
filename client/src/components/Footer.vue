@@ -12,6 +12,10 @@
         <a class="facebook" href="https://web.facebook.com/DSCASU" target="_blank">
             <FontAwesomeIcon :icon="{prefix: 'fab', iconName: 'facebook'}" class="facebook"/>
         </a> &nbsp;
+
+        <a class="dsc" href="https://dsc.community.dev/applied-science-private-university/" target="_blank">
+                <FontAwesomeIcon :icon="{prefix: 'fab', iconName: 'google'}"/>
+        </a> &nbsp;
         •
         <a href="https://github.com/mbaraa/dsc_logo_generator" target="_blank">
             <FontAwesomeIcon icon="code"/>
@@ -23,10 +27,11 @@
 <script>
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 import {faLaugh, faCode} from "@fortawesome/free-solid-svg-icons";
-import {faFacebook, faGithub, faLinkedin} from "@fortawesome/free-brands-svg-icons";
+import {faFacebook, faGithub, faLinkedin, faGoogle} from "@fortawesome/free-brands-svg-icons";
 import {library} from "@fortawesome/fontawesome-svg-core";
 // font awesome
-library.add(faFacebook, faGithub, faLinkedin, faLaugh, faCode)
+library.add(faFacebook, faGithub, faLinkedin, faLaugh, faCode, faGoogle);
+
 
 export default {
     name: "Footer",
@@ -49,6 +54,10 @@ a {
 
 .facebook {
     color: #00acee;
+}
+
+.dsc {
+    color: #FFFFFF;
 }
 
 .base {
