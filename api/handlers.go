@@ -6,6 +6,9 @@ import (
 	"image/color"
 	"net/http"
 	"strconv"
+
+	"github.com/mbaraa/dsc_logo_generator/imagefile"
+	"github.com/mbaraa/dsc_logo_generator/logogen"
 )
 
 // setupResponse sets required response headers.
@@ -32,8 +35,24 @@ func getTextColor(logoColor string) color.RGBA64 {
 
 // getRawLogo returns a byte array of the required logo color-style.
 // if color-style is not recognised it returns a colored logo :)
-func getRawLogo(logoColor string) *Logo {
+func getRawLogo(logoColor string) logogen.Logo {
 	switch logoColor {
+	case "v-color":
+		return logogen.NewLogo(
+			imagefile.DecodeB64IntoByteSlice(GetB64ColoredLogo()),
+			logogen.VerticalLogo,
+		)
+		
+	case "h-color":
+		return logogen.NewLogo(
+			imagefile.DecodeB64IntoByteSlice(GetB64ColoredHorizontalLogo()),
+			logogen.HorizontalLogo,
+		)
+
+	default:
+		return nil
+	}
+	/*switch logoColor {
 	case "v-color":
 		return GetColoredLogo()
 	case "v-gray":
@@ -48,7 +67,7 @@ func getRawLogo(logoColor string) *Logo {
 		return GetWhiteHorizontalLogo()
 	default:
 		return GetColoredLogo()
-	}
+	}*/
 }
 
 // getImageBackground returns a color color.RGBA64 that represents the logo background
@@ -82,28 +101,28 @@ func GetLogo(w http.ResponseWriter, r *http.Request) {
 	logoType, _ := strconv.ParseInt(parameters["logo_type"][0], 10, 16)
 
 	// logo type management
-	var xPadding, yPadding float64
+	var xPadding, yPadding int
 
 	switch logoType {
 	case 1:
-		xPadding, yPadding = 300.0*2, 300.0*2
+		xPadding, yPadding = 300*2, 300*2
 		imgColor = "v-" + imgColor
 		break
 	case 2:
-		xPadding, yPadding = 75.0*2, .0
+		xPadding, yPadding = 75*2, 0
 		imgColor = "h-" + imgColor
 		break
 	}
 
 	rawLogo := getRawLogo(imgColor)
+	text, _ := logogen.NewText(uniName, getTextColor(imgColor), 200.0, GetProductSansFont())
 
-	generator := NewLogoGenerator(
+	generator := logogen.NewLogoGenerator(
 		rawLogo,
-		NewText(
-			uniName, getTextColor(imgColor), 0, GetProductSansFont()),
+		text,
 		getImageBackground(imgColor, opacity))
 
-	newLogoBytes := generator.GetLogoWithTextWithPadding(200.0, xPadding, yPadding, int(logoType))
+	newLogoBytes := generator.GenerateLogoWithPadding(xPadding, yPadding)
 
 	responseJSON := make(map[string]string)
 	responseJSON["image"] = base64.StdEncoding.EncodeToString(newLogoBytes)
