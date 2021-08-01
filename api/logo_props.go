@@ -18,6 +18,7 @@ type LogoProps struct {
 	LogoType           logogen.LogoType
 	LogoColor          string
 	XPadding, YPadding int
+	LogoSth            files.DecodedB64File
 }
 
 // LogoPropsJuicer gets the appropriate logo and text color based on the request query
@@ -29,26 +30,24 @@ type LogoPropsJuicer struct {
 // NewLogoPropsJuicer returns a new LogoPropsJuicer instance
 //
 func NewLogoPropsJuicer(req *http.Request) (lp *LogoPropsJuicer) {
-	lp = new(LogoPropsJuicer)
-
 	opacity, _ := strconv.ParseFloat(req.URL.Query()["opacity"][0], 32)
 	logoType, _ := strconv.ParseInt(req.URL.Query()["logo_type"][0], 10, 16)
 
-	lp.props = &LogoProps{
-		ImgColor: req.URL.Query()["img_color"][0],
-		UniName:  req.URL.Query()["uni_name"][0],
-		Opacity:  opacity,
-		LogoType: logogen.LogoType(logoType - 1),
-	}
-	lp.setLogoColorAndPadding()
-
-	return lp
+	return (&LogoPropsJuicer{
+		props: &LogoProps{
+			ImgColor: req.URL.Query()["img_color"][0],
+			UniName:  req.URL.Query()["uni_name"][0],
+			Opacity:  opacity,
+			LogoType: logogen.LogoType(logoType - 1),
+		},
+	}).setLogoColorAndPadding().
+		setLogoProps()
 }
 
-func (lp *LogoPropsJuicer) setLogoColorAndPadding() {
+func (lp *LogoPropsJuicer) setLogoColorAndPadding() *LogoPropsJuicer {
 	switch lp.props.LogoType {
 	case logogen.VerticalLogo:
-		lp.props.XPadding, lp.props.YPadding = 300*2, 300*2
+		lp.props.XPadding, lp.props.YPadding = 200*2, 200*2
 		lp.props.LogoColor = "v-"
 
 	case logogen.HorizontalLogo:
@@ -56,6 +55,8 @@ func (lp *LogoPropsJuicer) setLogoColorAndPadding() {
 		lp.props.LogoColor = "h-"
 	}
 	lp.props.LogoColor += lp.props.ImgColor
+
+	return lp
 }
 
 // GetPadding returns the appropriate padding for the logo depending on its orientation
@@ -70,10 +71,10 @@ func (lp *LogoPropsJuicer) GetPadding() (x, y int) {
 //
 func (lp *LogoPropsJuicer) GetTextColor() color.RGBA64 {
 	switch lp.props.LogoColor {
-	case "v-colored", "v-gray", "h-colored", "h-gray":
-		return color.RGBA64{R: 103, G: 108, B: 114}
 	case "v-white", "h-white":
 		return color.RGBA64{R: 255, G: 255, B: 255}
+	case "v-color", "h-color":
+		fallthrough
 	default:
 		return color.RGBA64{R: 103, G: 108, B: 114}
 	}
@@ -83,40 +84,31 @@ func (lp *LogoPropsJuicer) GetTextColor() color.RGBA64 {
 // if color-style is not recognised it returns a colored logo :)
 //
 func (lp *LogoPropsJuicer) GetRawLogo() logogen.Logo {
+	switch lp.props.LogoType {
+	case logogen.VerticalLogo:
+		return logogen.NewLogo(lp.props.LogoSth.Data, logogen.VerticalLogo)
+	case logogen.HorizontalLogo:
+		fallthrough
+	default:
+		return logogen.NewLogo(lp.props.LogoSth.Data, logogen.HorizontalLogo)
+	}
+}
+
+func (lp *LogoPropsJuicer) setLogoProps() *LogoPropsJuicer {
 	switch lp.props.LogoColor {
-	case "v-gray":
-		return logogen.NewLogo(
-			files.GetFilesInstance().GetVerticalLogoGray(),
-			logogen.VerticalLogo,
-		)
 	case "v-white":
-		return logogen.NewLogo(
-			files.GetFilesInstance().GetVerticalLogoWhite(),
-			logogen.VerticalLogo,
-		)
-	case "h-color":
-		return logogen.NewLogo(
-			files.GetFilesInstance().GetHorizontalLogoColored(),
-			logogen.HorizontalLogo,
-		)
-	case "h-gray":
-		return logogen.NewLogo(
-			files.GetFilesInstance().GetHorizontalLogoGray(),
-			logogen.HorizontalLogo,
-		)
+		lp.props.LogoSth = files.GetFilesInstance().GetVerticalLogoWhite()
 	case "h-white":
-		return logogen.NewLogo(
-			files.GetFilesInstance().GetHorizontalLogoWhite(),
-			logogen.HorizontalLogo,
-		)
+		lp.props.LogoSth = files.GetFilesInstance().GetHorizontalLogoWhite()
+	case "h-color":
+		lp.props.LogoSth = files.GetFilesInstance().GetHorizontalLogoColored()
 	case "v-color":
 		fallthrough
 	default:
-		return logogen.NewLogo(
-			files.GetFilesInstance().GetVerticalLogoColored(),
-			logogen.VerticalLogo,
-		)
+		lp.props.LogoSth = files.GetFilesInstance().GetVerticalLogoColored()
 	}
+
+	return lp
 }
 
 // GetImageBackground returns a color color.RGBA64 that represents the logo background
@@ -140,7 +132,7 @@ func (lp *LogoPropsJuicer) GetText() *logogen.Text {
 	text, _ := logogen.NewText(
 		lp.props.UniName,
 		lp.GetTextColor(),
-		200.0,
+		lp.props.LogoSth.TextSize,
 		files.GetFilesInstance().GetProductSansFont(),
 	)
 	return text
