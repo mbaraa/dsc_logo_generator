@@ -78,7 +78,7 @@ func (lg *LogoGenerator) appendText() {
 	// maybe I'll fix it later, no one knows (:
 	switch lg.logo.(type) {
 	case *HorizontalWideLogo:
-		lg.finalImage.MoveTo((18.9*float64(lg.width))/100, logoY+float64(lg.logo.GetHeight()/2)+lg.text.GetFontSize()/2)
+		lg.finalImage.MoveTo((14.6*float64(lg.width))/100, logoY+float64(lg.logo.GetHeight())/1.65+lg.text.GetFontSize()/2)
 
 	default: // Vertical logos share the same shit :)
 		lg.finalImage.MoveTo(
