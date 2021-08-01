@@ -28,7 +28,7 @@ type Logo interface {
 	// GetImage returns a byte slice that has the image
 	GetImage() []byte
 
-	// GetHeightAndWidthForLogogen returns h, w the hieght and width that will be used
+	// GetHeightAndWidthForLogogen returns h, w the height and width that will be used
 	// when generating a logo
 	GetHeightAndWidthForLogogen() (h, w int)
 }
@@ -41,7 +41,7 @@ func NewLogo(image []byte, logoType LogoType) Logo {
 
 	switch logoType {
 	case VerticalLogo:
-		
+
 		if width > height {
 			return &WideRectangleLogo{image, height, width}
 		} else if width < height {

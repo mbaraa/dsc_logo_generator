@@ -9,8 +9,8 @@ type HorizontalWideLogo struct {
 // GetLogoPosition returns x, y coordinates on a 2D plane that will make the logo centered
 // according to its parent image(background)
 func (hl *HorizontalWideLogo) GetLogoPosition(parentWidth, parentHeight int) (x, y float64) {
-	x = 0//(18.9 * float64(parentWidth)) / 100
-	y = float64(parentHeight)*.22 //(float64(parentHeight)/2)*1.75
+	x = 0
+	y = float64(parentHeight) * .22
 	return
 }
 
