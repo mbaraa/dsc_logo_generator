@@ -29,6 +29,8 @@ func (hl *HorizontalWideLogo) GetImage() []byte {
 	return hl.image
 }
 
+// GetHeightAndWidthForLogogen returns h, w the height and width that will be used
+// when generating a logo
 func (hl *HorizontalWideLogo) GetHeightAndWidthForLogogen() (h, w int) {
 	return hl.height, hl.width
 }

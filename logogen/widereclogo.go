@@ -31,6 +31,8 @@ func (wl *WideRectangleLogo) GetImage() []byte {
 	return wl.image
 }
 
+// GetHeightAndWidthForLogogen returns h, w the height and width that will be used
+// when generating a logo
 func (wl *WideRectangleLogo) GetHeightAndWidthForLogogen() (h, w int) {
 	shared := int(math.Max(float64(wl.height), float64(wl.width)))
 	return shared, shared

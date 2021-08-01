@@ -6,8 +6,10 @@ import (
 	"math"
 )
 
+// LogoType defines logo orientation type
 type LogoType uint
 
+// LogoType constants, which are vertical or horizontal :)
 const (
 	VerticalLogo LogoType = iota
 	HorizontalLogo

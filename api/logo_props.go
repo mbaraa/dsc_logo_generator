@@ -9,7 +9,7 @@ import (
 	"github.com/mbaraa/dsc_logo_generator/logogen"
 )
 
-// LogoProps, well it's written on the box :)
+// LogoProps , well it's written on the box :)
 //
 type LogoProps struct {
 	ImgColor           string
@@ -26,6 +26,8 @@ type LogoPropsJuicer struct {
 	props *LogoProps
 }
 
+// NewLogoPropsJuicer returns a new LogoPropsJuicer instance
+//
 func NewLogoPropsJuicer(req *http.Request) (lp *LogoPropsJuicer) {
 	lp = new(LogoPropsJuicer)
 

@@ -8,6 +8,8 @@ import (
 	"github.com/ungerik/go-cairo"
 )
 
+// LogoGenerator defines the wrapper of the logo generation process
+//
 type LogoGenerator struct {
 	height, width int
 	text          *Text

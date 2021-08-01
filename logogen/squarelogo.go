@@ -31,6 +31,8 @@ func (sl *SquareLogo) GetImage() []byte {
 	return sl.image
 }
 
+// GetHeightAndWidthForLogogen returns h, w the height and width that will be used
+// when generating a logo
 func (sl *SquareLogo) GetHeightAndWidthForLogogen() (h, w int) {
 	shared := int(math.Max(float64(sl.width), float64(sl.height)))
 	return shared, shared
