@@ -52,8 +52,9 @@ export default {
         return {
             logo: this.$store.getters.getLogo,
             bg: "opaque",
-            colors: ["color", "gray", "white"],
+            colors: ["color", "white"],
             colorIndex: 0,
+            fontSizeUpdateCounter: 0
         }
     },
     methods: {
@@ -102,7 +103,7 @@ export default {
                     let a = document.createElement("a");
 
                     a.href = `data:image/png;base64,${data["image"]}`;
-                    a.download = `DSC ${this.logo.text.text} ${this.logo.orientation} ${this.logo.color}`;
+                    a.download = `GDSC ${this.logo.text.text} ${this.logo.orientation} ${this.logo.color}`;
                     a.click();
                 })
         },
@@ -117,10 +118,13 @@ export default {
             if (width > Number(0.32 *
                 Number(this.$store.getters.getLogo.width.substring(0, textStringLength - 2)))
             ) {
-                this.logo.text.size =
-                    Number(
-                        -0.04 + Number(this.logo.text.size.substring(0, textStringLength - 2))
-                    ) + "em";
+                this.fontSizeUpdateCounter = Number((this.fontSizeUpdateCounter + 1) % 7);
+                if (this.fontSizeUpdateCounter === 0) {
+                    this.logo.text.size =
+                        Number(
+                            -0.001 + Number(this.logo.text.size.substring(0, textStringLength - 2))
+                        ) + "em";
+                }
             } else {
                 this.logo.text.resetTextSize(this.logo.orientation);
             }
@@ -134,15 +138,13 @@ export default {
             return this.colors[this.colorIndex];
         },
         changeColorType() {
-            this.colorIndex = (this.colorIndex + 1) % 3;
+            this.colorIndex = (this.colorIndex + 1) % 2;
             this.logo.color = this.colors[this.colorIndex];
         },
         getColorChangerStyleClass() {
             switch (this.colors[this.colorIndex]) {
                 case "color":
                     return "colorChangerColored";
-                case "gray":
-                    return "colorChangerGray";
                 case "white":
                     return "colorChangerWhite";
             }

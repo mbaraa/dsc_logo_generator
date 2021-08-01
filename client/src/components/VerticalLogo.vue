@@ -3,7 +3,7 @@
     'background-image': 'url('+ String($store.getters.getLogo.image_path) +')',
     'box-shadow': $store.getters.getTheme.border_color+ ' 1px 1px 5px 2px',
     }" class="logo">
-        <UniNameText/>
+        <UniNameText style="font-size: .8em; top: 295px"/>
     </div>
 </template>
 

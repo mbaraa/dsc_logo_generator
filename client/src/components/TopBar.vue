@@ -1,15 +1,15 @@
 <template>
-    <div class="nav" :style="{
+    <header class="nav" :style="{
         backgroundColor: $store.getters.getTheme.top_bar_bg_color,
         color: $store.getters.getTheme.top_bar_font_color,
     }">
         <img src="/gdg_logo.png" class="gdgLogo"/>
         <span style="display: inline;">
-            DSC Logo Generator
+            GDSC Logo Generator
         </span>
 
         <DarkModeToggle class="themeSwitcher" title="click to toggle dark mode"/>
-    </div>
+    </header>
 </template>
 
 <script>

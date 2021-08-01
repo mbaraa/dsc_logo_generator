@@ -4,7 +4,7 @@
     'box-shadow': $store.getters.getTheme.border_color+ ' 1px 1px 5px 2px',
     color: $store.getters.getLogo.text_color,
     }" class="logo">
-        <UniNameText style="left: 214px; position: absolute"/>
+        <UniNameText style="left: 185px; position: absolute; font-size: 0.75em"/>
     </div>
 </template>
 
@@ -21,7 +21,7 @@ export default {
 
 <style scoped>
 .logo {
-    width: 1050px;
+    width: 1100px;
     height: 210px;
     position: relative;
     margin: 20px auto;

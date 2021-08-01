@@ -4,6 +4,7 @@
 }" style="width: 100%; height: 100vh">
         <TopBar/>
         <LogoProps/>
+        <br/>
         <Footer/>
     </div>
 </template>

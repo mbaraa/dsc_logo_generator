@@ -1,15 +1,15 @@
 <template>
-    <span class="base" :style="{
+    <footer class="base" :style="{
         color: $store.getters.getTheme.font_color,
         backgroundColor: $store.getters.getTheme.top_bar_bg_color,
     }">
         Made with
         <FontAwesomeIcon icon="laugh"/>
-        by <b>DSC-ASU (jo)</b> &nbsp;
-        <a class="linkedin" href="https://www.linkedin.com/company/dscasu/" target="_blank">
+        by <b>GDSC-ASU (jo)</b> &nbsp;
+        <a class="linkedin" href="https://www.linkedin.com/company/gdscasu/" target="_blank">
             <FontAwesomeIcon :icon="{prefix: 'fab', iconName: 'linkedin'}" class="linkedin"/>
         </a> &nbsp;
-        <a class="facebook" href="https://web.facebook.com/DSCASU" target="_blank">
+        <a class="facebook" href="https://web.facebook.com/GDSCASU" target="_blank">
             <FontAwesomeIcon :icon="{prefix: 'fab', iconName: 'facebook'}" class="facebook"/>
         </a> &nbsp;
 
@@ -21,7 +21,7 @@
             <FontAwesomeIcon icon="code"/>
             <FontAwesomeIcon :icon="{prefix: 'fab', iconName: 'github'}"/>
         </a> •
-    </span>
+    </footer>
 </template>
 
 <script>
