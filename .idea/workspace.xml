@@ -2,16 +2,29 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2c2c2a4e-5dba-4e9d-9da8-0f82dec0de44" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/client/.browserslistrc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/.eslintrc.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/assets/logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/models/Text.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/models/Theme.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/shims-vue.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/vues.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/tsconfig.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/LogoGenerator/LogoGenerator.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/LogoGenerator/LogoGenerator.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/Resources/Resources.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/Resources/Resources.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/api.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/dark_index.html" beforeDir="false" afterPath="$PROJECT_DIR$/ui/dark_index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/dark_style.css" beforeDir="false" afterPath="$PROJECT_DIR$/ui/dark_style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/ui/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/ui/script.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Footer.vue" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Footer.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/HorizontalLogo.vue" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/HorizontalLogo.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/LogoProps.vue" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/LogoProps.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/TopBar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/TopBar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/UniNameText.vue" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UniNameText.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/VerticalLogo.vue" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/VerticalLogo.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/models/Logo.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/models/Logo.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/models/Text.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/models/Theme.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/store/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/store/store.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/utils/ThemeChooser.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/utils/ThemeChooser.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,14 +37,37 @@
         <option value="Go File" />
         <option value="CSS File" />
         <option value="JavaScript File" />
-        <option value="TypeScript File" />
         <option value="HTML File" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
   <component name="GOROOT" url="file:///usr/lib/go" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="GoLibraries">
+    <option name="indexEntireGoPath" value="false" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/client/src/components/UniNameText.vue" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/client/src/components/VerticalLogo.vue" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/client/src/models/Text.ts" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/client/src/models/Theme.ts" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/client/src/models/Logo.ts" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/client/src/App.vue" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/client/public/index.html" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/client/src/components/LogoProps.vue" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/client/src/main.ts" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/client/src/store/store.ts" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="1lxCDZeYJFFVqP2ylJwR8lbvHdJ" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -45,8 +81,10 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
     <property name="go.import.settings.migrated" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/res" />
+    <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/dsc_logo_generator_ts" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -54,31 +92,47 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="restartRequiresConfirmation" value="false" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Color Scheme Font" />
+    <property name="ts.external.directory.path" value="$PROJECT_DIR$/client/node_modules/typescript/lib" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/dsc_logo_generator_ts" />
+      <recent name="$PROJECT_DIR$/dsc_logo_generator_ts/src" />
+      <recent name="$PROJECT_DIR$/dsc_logo_generator_ts/src/store" />
       <recent name="$PROJECT_DIR$/res" />
       <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/API" />
     </key>
   </component>
   <component name="RunManager" selected="Go Build.go build main.go (1)">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="go build main.go (1)" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="dsc_logo_generator" />
       <working_directory value="$PROJECT_DIR$" />
       <kind value="FILE" />
-      <filePath value="$PROJECT_DIR$/main.go" />
       <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/main.go" />
       <method v="2" />
     </configuration>
     <configuration name="go build main.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="dsc_logo_generator" />
       <working_directory value="$PROJECT_DIR$" />
       <kind value="FILE" />
-      <filePath value="$PROJECT_DIR$/API/main.go" />
       <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/API/main.go" />
       <method v="2" />
     </configuration>
     <recent_temporary>
@@ -89,8 +143,24 @@
     </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2c2c2a4e-5dba-4e9d-9da8-0f82dec0de44" name="Default Changelist" comment="" />
+      <created>1628929377666</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1628929377666</updated>
+      <workItem from="1628929379177" duration="6834000" />
+    </task>
+    <servers />
+  </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+    <option name="exactExcludedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/dsc_logo_generator_ts/src/main.js" />
+      </list>
+    </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -111,5 +181,8 @@
     <MESSAGE value="update README.md" />
     <MESSAGE value="update color blyat!" />
     <option name="LAST_COMMIT_MESSAGE" value="update color blyat!" />
+  </component>
+  <component name="VgoProject">
+    <integration-enabled>true</integration-enabled>
   </component>
 </project>

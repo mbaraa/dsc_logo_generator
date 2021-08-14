@@ -14,7 +14,7 @@
         </a> &nbsp;
 
         <a class="dsc" href="https://dsc.community.dev/applied-science-private-university/" target="_blank">
-                <FontAwesomeIcon :icon="{prefix: 'fab', iconName: 'google'}"/>
+            <FontAwesomeIcon :icon="{prefix: 'fab', iconName: 'google'}"/>
         </a> &nbsp;
         •
         <a href="https://github.com/mbaraa/dsc_logo_generator" target="_blank">
@@ -24,21 +24,22 @@
     </footer>
 </template>
 
-<script>
+<script lang="ts">
+import {defineComponent} from "vue";
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
-import {faLaugh, faCode} from "@fortawesome/free-solid-svg-icons";
-import {faFacebook, faGithub, faLinkedin, faGoogle} from "@fortawesome/free-brands-svg-icons";
+import {faCode, faLaugh} from "@fortawesome/free-solid-svg-icons";
+import {faFacebook, faGithub, faGoogle, faLinkedin} from "@fortawesome/free-brands-svg-icons";
 import {library} from "@fortawesome/fontawesome-svg-core";
 // font awesome
 library.add(faFacebook, faGithub, faLinkedin, faLaugh, faCode, faGoogle);
 
 
-export default {
+export default defineComponent({
     name: "Footer",
     components: {
         FontAwesomeIcon
     },
-}
+});
 </script>
 
 <style scoped>

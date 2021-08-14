@@ -13,9 +13,10 @@
 </template>
 
 <script>
+import {defineComponent} from "vue";
 import DarkModeToggle from "./DarkModeToggle";
 
-export default {
+export default defineComponent({
     name: "TopBar",
     components: {
         DarkModeToggle,
@@ -26,7 +27,7 @@ export default {
             theme: this.$store.getters.getTheme
         }
     },
-}
+});
 </script>
 
 <style scoped>

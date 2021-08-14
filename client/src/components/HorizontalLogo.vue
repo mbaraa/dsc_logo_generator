@@ -8,15 +8,16 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+import {defineComponent} from "vue";
 import UniNameText from "./UniNameText.vue";
 
-export default {
+export default defineComponent({
     name: "HorizontalLogo",
     components: {
         UniNameText
     }
-}
+});
 </script>
 
 <style scoped>

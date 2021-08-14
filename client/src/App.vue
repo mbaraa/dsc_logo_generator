@@ -9,19 +9,20 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+import {defineComponent} from "vue";
 import Footer from "./components/Footer.vue";
-import TopBar from "./components/TopBar";
-import LogoProps from "./components/LogoProps";
+import TopBar from "./components/TopBar.vue";
+import LogoProps from "./components/LogoProps.vue";
 
-export default {
+export default defineComponent({
     name: 'App',
     components: {
         LogoProps,
         TopBar,
         Footer,
     }
-}
+});
 </script>
 
 <style>

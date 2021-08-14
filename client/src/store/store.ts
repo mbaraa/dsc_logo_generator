@@ -1,13 +1,13 @@
 import {createStore} from 'vuex';
-import ThemeChooser from "../utils/ThemeChooser.js";
-import Logo from "../models/Logo.js";
-import Text from "../models/Text.js";
+import ThemeChooser from "../utils/ThemeChooser";
+import Logo from "../models/Logo";
+import Text from "../models/Text";
 
 const store = createStore({
     state: {
         theme_chooser: new ThemeChooser(),
         logo: new Logo("color",
-            new Text("Type to see magic!", "", "ProductSans", "1.58em", "60.625%"),
+            new Text("Type to see magic!", "rgb(103, 108, 114)", "ProductSans", "1.58em", "60.625%"),
             "vertical"
         )
     },

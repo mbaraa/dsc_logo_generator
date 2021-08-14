@@ -7,15 +7,16 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+import {defineComponent} from "vue";
 import UniNameText from "./UniNameText.vue";
 
-export default {
+export default defineComponent({
     name: "VerticalLogo",
     components: {
         UniNameText
     }
-}
+});
 </script>
 
 <style scoped>

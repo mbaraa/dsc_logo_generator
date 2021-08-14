@@ -9,7 +9,8 @@
             <label> Color Type</label>
             <FontAwesomeIcon :icon="{prefix: 'fas', iconName: 'palette'}"
                              :class="getColorChangerStyleClass()" class="colorChanger"
-                             @click="changeColorType" :title="getColorType() + ' : click to change the logo\'s color!'"/>
+                             @click="changeColorType"
+                             :title="getColorType() + ' : click to change the logo\'s color!'"/>
 
             |
             <label>Orientation</label>
@@ -31,7 +32,8 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+import {defineComponent} from "vue";
 import VerticalLogo from "./VerticalLogo.vue";
 import HorizontalLogo from "./HorizontalLogo.vue";
 
@@ -41,7 +43,7 @@ import {library} from "@fortawesome/fontawesome-svg-core";
 // font awesome
 library.add(faPalette);
 
-export default {
+export default defineComponent({
     name: "LogoProps",
     components: {
         VerticalLogo,
@@ -71,10 +73,10 @@ export default {
         getOpacity() {
             this.logo.opacity = this.bg === "opaque" ? 1 : 0;
         },
-        verifyLogoText() {
+        verifyLogoText(): boolean {
             return (this.logo.text !== "");
         },
-        verifyLogoData() {
+        verifyLogoData(): boolean {
             if (!this.verifyLogoText()) {
                 window.alert("Hmm... a nameless university!");
                 return false;
@@ -89,7 +91,7 @@ export default {
                 this.getLogoFromServer();
             }
         },
-        getLogoOrientation() {
+        getLogoOrientation(): number {
             return this.logo.orientation === "vertical" ? 1 : 2;
         },
         async getLogoFromServer() {
@@ -108,56 +110,60 @@ export default {
                 })
         },
         updateFontSize() {
-            let canvas = document.createElement("canvas");
-            let context = canvas.getContext("2d");
-            context.font = "ProductSans";
+            let canvas: HTMLCanvasElement = document.createElement("canvas");
+            let context: CanvasRenderingContext2D | null = canvas?.getContext("2d");
+            if (context != null) {
+                context.font = "ProductSans";
 
-            let width = Number(context.measureText(this.$store.getters.getLogo.text.text).width);
-            let textStringLength = this.$store.getters.getLogo.width.length;
+                let width = Number(context?.measureText(this.$store.getters.getLogo.text.text).width);
+                let textstringLength = this.$store.getters.getLogo.width.length;
 
-            if (width > Number(0.32 *
-                Number(this.$store.getters.getLogo.width.substring(0, textStringLength - 2)))
-            ) {
-                this.fontSizeUpdateCounter = Number((this.fontSizeUpdateCounter + 1) % 7);
-                if (this.fontSizeUpdateCounter === 0) {
-                    this.logo.text.size =
-                        Number(
-                            -0.001 + Number(this.logo.text.size.substring(0, textStringLength - 2))
-                        ) + "em";
+                if (width > Number(0.32 *
+                    Number(this.$store.getters.getLogo.width.substring(0, textstringLength - 2)))
+                ) {
+                    this.fontSizeUpdateCounter = Number((this.fontSizeUpdateCounter + 1) % 7);
+                    if (this.fontSizeUpdateCounter === 0) {
+                        this.logo.text.size =
+                            Number(
+                                -0.001 + Number(this.logo.text.size.substring(0, textstringLength - 2))
+                            ) + "em";
+                    }
+                } else {
+                    this.logo.text.resetTextSize(this.logo.orientation);
                 }
-            } else {
-                this.logo.text.resetTextSize(this.logo.orientation);
-            }
 
-            this.setLogo();
+                this.setLogo();
+            }
         },
         changeOrientation() {
             this.logo.changeOrientation();
         },
-        getColorType() {
+        getColorType(): string {
             return this.colors[this.colorIndex];
         },
         changeColorType() {
             this.colorIndex = (this.colorIndex + 1) % 2;
-            this.logo.color = this.colors[this.colorIndex];
+            this.logo.setColor(this.colors[this.colorIndex]);
         },
-        getColorChangerStyleClass() {
+        getColorChangerStyleClass(): string {
             switch (this.colors[this.colorIndex]) {
                 case "color":
                     return "colorChangerColored";
                 case "white":
+                default:
                     return "colorChangerWhite";
             }
         },
-        makeTitle(str) {
+        makeTitle(str: string): string {
             return str.charAt(0).toUpperCase() + str.substring(1);
         }
     }
-}
+});
 </script>
 
 <style scoped>
 .base {
+    font-family: ProductSans;
     position: relative;
     text-align: center;
     margin: auto;
@@ -169,6 +175,7 @@ export default {
 }
 
 .uniName {
+    font-family: ProductSans;
     height: 40px;
     width: 330px;
     font-size: 1.2em;
@@ -176,6 +183,7 @@ export default {
 }
 
 .genLogo {
+    font-family: ProductSans;
     font-size: 1em;
     cursor: pointer;
 

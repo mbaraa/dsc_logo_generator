@@ -4,7 +4,7 @@
     }">
         <p :style="{
             fontSize: $store.getters.getLogo.text.size, /* to match the values in the backend :) */
-            color: $store.getters.getLogo.text.color,
+            'color': $store.getters.getLogo.text.color,
 
         }" id="uniName">
             {{ $store.getters.getLogo.text.text }}
@@ -12,10 +12,11 @@
     </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import {defineComponent} from "vue";
+export default defineComponent({
     name: "UniNameText",
-}
+});
 </script>
 
 <style scoped>

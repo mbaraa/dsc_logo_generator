@@ -1,54 +1,59 @@
-export default class Logo {
-    $text;
-    $opacity;
-    $image_path;
-    $color;
-    $orientation;
-    $width;
+import Text from "@/models/Text";
 
-    constructor(color, text, orientation) {
+export default class Logo {
+    $text: Text;
+    $opacity: number;
+    $image_path: string | undefined;
+    $color: string;
+    $orientation: string;
+    $width: string | undefined;
+
+    constructor(color: string, text: Text, orientation: string) {
         this.$color = color;
         this.$orientation = orientation;
         this.$text = text;
 
         // setters
-        this.color = color;
-        this.orientation = orientation;
+        this.$color = color;
+        this.$orientation = orientation;
         this.$updateImagePath(); // path according to orientation and color
-        this.opacity = 0; // fully transparent
+        this.$opacity = 0; // fully transparent
+        this.$width = "500px";
     }
 
-    get image_path() {
-        return this.$image_path;
+    get image_path(): string {
+        return <string>this.$image_path;
     }
 
-    get color() {
+    get color(): string {
         return this.$color;
     }
 
-    get orientation() {
+    get orientation(): string {
         return this.$orientation;
     }
 
-    get width() {
-        return this.$width;
+    get width(): string {
+        return <string>this.$width;
     }
 
-    get opacity() {
+    get opacity(): number {
         return this.$opacity;
     }
 
-    set opacity(opacity) {
+    set opacity(opacity: number) {
         this.$opacity = opacity;
-
-        return this;
     }
 
-    get text() {
+    get text(): Text {
         return this.$text;
     }
 
-    set text(text) {
+    set text(text: Text) {
+        this.$text = text;
+    }
+
+    setContent(text: string): void {
         this.$text.text = text;
     }
 
@@ -56,19 +61,17 @@ export default class Logo {
      * Sets logo's color, and sets a proper color for the text.
      * @param {string} color
      * */
-    set color(color) {
+    setColor(color: string): void {
         this.$color = color;
         this.$text.color = color !== "white" ? "#676c72" : "#FFFFFF";
         this.$updateImagePath();
-
-        return this
     }
 
     /**
      * Sets the orientation of the logo, and updates the logo's image path.
      * @param {string} orientation "vertical" or "horizontal"
      * */
-    set orientation(orientation) {
+    setOrientation(orientation: string): void {
         if (orientation === "vertical" || orientation === "horizontal") {
             this.$orientation = orientation;
             this.$width = orientation === "vertical" ? "500px" : "1050px";
@@ -76,15 +79,13 @@ export default class Logo {
             // adapt text to the new orientation
             this.$text.changeOrientation(orientation);
         }
-
-        return this
     }
 
-    changeOrientation() {
-        this.orientation = this.$orientation === "vertical"? "horizontal": "vertical";
+    changeOrientation(): void {
+        this.setOrientation(this.$orientation === "vertical" ? "horizontal" : "vertical");
     }
 
-    $updateImagePath() {
+    $updateImagePath(): void {
         this.$image_path = `/${this.orientation.charAt(0)}-${this.color}.png`;
     }
 }
