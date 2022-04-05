@@ -41,7 +41,7 @@ import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 import {faPalette} from "@fortawesome/free-solid-svg-icons";
 import {library} from "@fortawesome/fontawesome-svg-core";
 // font awesome
-library.add(faPalette);
+library.add(faPalette as any);
 
 export default defineComponent({
     name: "LogoProps",
