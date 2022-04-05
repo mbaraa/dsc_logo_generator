@@ -40,6 +40,8 @@ import HorizontalLogo from "./HorizontalLogo.vue";
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 import {faPalette} from "@fortawesome/free-solid-svg-icons";
 import {library} from "@fortawesome/fontawesome-svg-core";
+import {backendAddress} from "@/main";
+
 // font awesome
 library.add(faPalette as any);
 
@@ -95,7 +97,7 @@ export default defineComponent({
             return this.logo.orientation === "vertical" ? 1 : 2;
         },
         async getLogoFromServer() {
-            const url = `/api/genlogo/?uni_name=${this.logo.text.text}&img_color=${this.logo.color}&opacity=${this.logo.opacity}&logo_type=${this.getLogoOrientation()}`;
+            const url = `${backendAddress}/api/genlogo/?uni_name=${this.logo.text.text}&img_color=${this.logo.color}&opacity=${this.logo.opacity}&logo_type=${this.getLogoOrientation()}`;
             await fetch(url, {
                 method: "GET",
                 mode: "cors",
