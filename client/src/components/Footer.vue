@@ -31,7 +31,7 @@ import {faCode, faLaugh} from "@fortawesome/free-solid-svg-icons";
 import {faFacebook, faGithub, faGoogle, faLinkedin} from "@fortawesome/free-brands-svg-icons";
 import {library} from "@fortawesome/fontawesome-svg-core";
 // font awesome
-library.add(faFacebook as any, faGithub, faLinkedin, faLaugh, faCode, faGoogle);
+library.add(faFacebook as any, faGithub as any, faLinkedin as any, faLaugh as any, faCode as any, faGoogle as any);
 
 
 export default defineComponent({
