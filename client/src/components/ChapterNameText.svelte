@@ -9,8 +9,13 @@
   let chapterName = "Type Your Chapter's Name Here!";
 
   function handleChangeChapterName(e: Event) {
-    console.log(chapterName);
     dispatch("chapter-name", chapterName);
+  }
+
+  function handleEnter(e: KeyboardEvent) {
+    if (e.key == "Enter") {
+      dispatch("genlogoenter");
+    }
   }
 </script>
 
@@ -21,4 +26,5 @@
   class={`bg-[transparent] border-b-[1px] p-[2px] rounded-[8px] ${_class}`}
   bind:value={chapterName}
   on:keyup={handleChangeChapterName}
+  on:keypress={handleEnter}
 />

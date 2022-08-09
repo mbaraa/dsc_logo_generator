@@ -1,4 +1,6 @@
 <script lang="ts">
+  import config from "../config";
+
   import ChapterNameText from "./ChapterNameText.svelte";
   import DownloadLogo from "./DownloadLogo.svelte";
   import Logo from "./Logo.svelte";
@@ -24,6 +26,28 @@
   function handleChangeChapterName(e: CustomEvent) {
     chapterName = e.detail as string;
   }
+
+  $: color = isColor ? "color" : "white";
+  $: opacity = isTransparent ? 0 : 1;
+  $: _orientation = isHorizontal ? 2 : 1;
+
+  async function downloadLogo() {
+    const url = `${config.backendAddress}/api/genlogo/?uni_name=${chapterName}&img_color=${color}&opacity=${opacity}&logo_type=${_orientation}`;
+    await fetch(url, {
+      method: "GET",
+      mode: "cors",
+    })
+      .then((resp) => resp.json())
+      .then((data) => {
+        let a = document.createElement("a");
+
+        a.href = `data:image/png;base64,${data["image"]}`;
+        a.download = `GDSC ${chapterName} ${
+          _orientation === 2 ? "Horizontal" : "Vertical"
+        } ${color}`;
+        a.click();
+      });
+  }
 </script>
 
 <div class="my-[28px] mx-[53px]">
@@ -32,6 +56,6 @@
     on:set-horizontal={handleOnSetHorizontal}
     on:set-transparent={handleOnSetTransparent}
   />
-  <Logo {isColor} {isHorizontal} on:chapter-name={handleChangeChapterName} />
-  <DownloadLogo {chapterName} {isColor} {isHorizontal} {isTransparent} />
+  <Logo {isColor} {isHorizontal} on:chapter-name={handleChangeChapterName} on:genlogoenter={downloadLogo}/>
+  <DownloadLogo on:genlogo={downloadLogo} />
 </div>

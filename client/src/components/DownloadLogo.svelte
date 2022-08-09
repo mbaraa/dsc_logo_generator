@@ -1,31 +1,10 @@
 <script lang="ts">
-  import config from "../config";
+  import {createEventDispatcher} from "svelte";
 
-  export let isHorizontal: boolean;
-  export let isColor: boolean;
-  export let isTransparent: boolean;
-  export let chapterName: string;
+  const dispatch = createEventDispatcher();
 
-  $: color = isColor ? "color" : "white";
-  $: opacity = isTransparent ? 0 : 1;
-  $: _orientation = isHorizontal ? 2 : 1;
-
-  async function downloadLogo() {
-    const url = `${config.backendAddress}/api/genlogo/?uni_name=${chapterName}&img_color=${color}&opacity=${opacity}&logo_type=${_orientation}`;
-    await fetch(url, {
-      method: "GET",
-      mode: "cors",
-    })
-      .then((resp) => resp.json())
-      .then((data) => {
-        let a = document.createElement("a");
-
-        a.href = `data:image/png;base64,${data["image"]}`;
-        a.download = `GDSC ${chapterName} ${
-          _orientation === 2 ? "Horizontal" : "Vertical"
-        } ${color}`;
-        a.click();
-      });
+  function downloadLogo() {
+    dispatch("genlogo");
   }
 </script>
 
