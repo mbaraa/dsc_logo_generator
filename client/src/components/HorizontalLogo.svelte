@@ -8,12 +8,12 @@
 
 <div class="relative">
   <img
-    class="rounded-[8px] border-[2px] border-[#F6F6F6]"
+    class="rounded-[8px] border-[2px] border-[#F6F6F6] md:w-[800px]"
     alt="logo"
     src={`/logos/${isColor ? "h-color" : "h-white"}.png`}
   />
   <div
-    class={`absolute w-full text-center text-[20px] left-[45%] translate-x-[-47.5%] top-[50%] z-[50] `}
+    class={`text-[20px] absolute w-full text-center left-[-2%] md:left-[-10.5%] md:text-[25px] top-[55%] z-[50] `}
   >
     <ChapterNameText on:chapter-name {textColor} />
   </div>
