@@ -15,6 +15,6 @@
   <div
     class={`text-[20px] md:text-[25px] z-[50] relative bottom-[32%] left-[13%] sm:left-[14.1%]`}
   >
-    <ChapterNameText on:chapter-name {textColor} />
+    <ChapterNameText _class="text-left pl-[20px]" on:chapter-name {textColor} />
   </div>
 </div>

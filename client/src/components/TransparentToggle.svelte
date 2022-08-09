@@ -18,5 +18,5 @@
   style={`color: ${
     transparent ? "white" : "#1F2436"
   }`}
-  class={`font-bold rounded-[8px] py-[12px] px-[20px]  bg-[${transparent ? "#4385F3" : "white"}]`}>{text}</button
+  class={`font-bold rounded-tr-[8px] rounded-br-[8px] py-[12px] px-[20px]  bg-[${transparent ? "#4385F3" : "white"}]`}>{text}</button
 >

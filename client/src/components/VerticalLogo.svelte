@@ -15,6 +15,6 @@
   <div
     class={`absolute w-full text-center text-[20px] left-[50%] translate-x-[-50%] top-[58%] z-[50]`}
   >
-    <ChapterNameText on:chapter-name {textColor} />
+    <ChapterNameText _class="text-center" on:chapter-name {textColor} />
   </div>
 </div>
