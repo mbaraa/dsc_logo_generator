@@ -1,22 +1,32 @@
 <script lang="ts">
-  import Fa from "svelte-fa/src/fa.svelte";
-  import { faLaugh } from "@fortawesome/free-solid-svg-icons";
-import LinkWithPhoto from "./LinkWithPhoto.svelte";
+  import LinkWithPhoto from "./LinkWithPhoto.svelte";
 </script>
 
 <div class="fixed bottom-0 border-t-[1px] border-t-[#F6F6F6] w-full h-[45px]">
   <div
     class="absolute bottom-[12px] px-[24px] text-center w-full flex justify-between text-[13px]"
   >
-    <label class="text-[#888888] font-black">
-      Made with <Fa class="inline" icon={faLaugh} /> By GDSC-ASU (JO)
-    </label>
+    <span class="text-[#888888] font-black">
+      Made with <img alt="Smile" src="/images/smile.png" class="w-[12px] h-[12px] inline mb-[4px] mx-[2px]" /> By GDSC-ASU (JO)
+    </span>
 
-    <div> 
-        <LinkWithPhoto link="https://gdsc.community.dev/applied-science-private-university/" imagePath="/images/google.png" />
-        <LinkWithPhoto link="https://www.linkedin.com/company/66952281/admin/" imagePath="/images/linkedin.png" />
-        <LinkWithPhoto link="https://www.facebook.com/DSCASU" imagePath="/images/facebook.png" />
-        <LinkWithPhoto link="https://github.com/mbaraa/dsc_logo_generator" imagePath="/images/github.png" />
+    <div>
+      <LinkWithPhoto
+        link="https://gdsc.community.dev/applied-science-private-university/"
+        imagePath="/images/google.png"
+      />
+      <LinkWithPhoto
+        link="https://www.linkedin.com/company/66952281/admin/"
+        imagePath="/images/linkedin.png"
+      />
+      <LinkWithPhoto
+        link="https://www.facebook.com/DSCASU"
+        imagePath="/images/facebook.png"
+      />
+      <LinkWithPhoto
+        link="https://github.com/mbaraa/dsc_logo_generator"
+        imagePath="/images/github.png"
+      />
     </div>
   </div>
 </div>

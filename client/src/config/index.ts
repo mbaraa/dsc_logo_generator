@@ -1,5 +1,5 @@
 const config = {
-    backendAddress: "http://localhost:1105"
+    backendAddress: "https://api.logogen.dscasu.com"
 }
 
 export default config;
