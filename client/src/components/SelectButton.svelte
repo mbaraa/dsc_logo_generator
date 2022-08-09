@@ -6,17 +6,16 @@
   const dispatch = createEventDispatcher();
 
   function changeColor() {
+    dispatch("change-color", options[0].name !== options[currentOption].name);
     currentOption = (currentOption + 1) % options.length;
-    dispatch("change-color", options[currentOption]);
   }
 </script>
 
 {#each options as option}
   <button
     on:click={changeColor}
-    class={`first:rounded-tl-[8px] first:rounded-bl-[8px] option py-[12px] px-[20px] text-[${
-      currentOption === option.i ? "white" : "#1F2436"
-    }] bg-[${currentOption === option.i ? "#4385F3" : "white"}]`}
+    style={`color: ${currentOption === option.i ? "white" : "#1F2436"}`}
+    class={`font-bold first:rounded-tl-[8px] first:rounded-bl-[8px] option py-[12px] px-[20px] bg-[${currentOption === option.i ? "#4385F3" : "white"}]`}
     >{option.name}</button
   >
 {/each}

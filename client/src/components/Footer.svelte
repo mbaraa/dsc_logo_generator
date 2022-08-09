@@ -16,7 +16,7 @@
         imagePath="/images/google.png"
       />
       <LinkWithPhoto
-        link="https://www.linkedin.com/company/66952281/admin/"
+        link="https://www.linkedin.com/company/GDSCASU"
         imagePath="/images/linkedin.png"
       />
       <LinkWithPhoto
