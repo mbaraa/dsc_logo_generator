@@ -9,7 +9,7 @@
   let isColor = true;
   let isHorizontal = false;
   let isTransparent = false;
-  let chapterName = "Type Your Chapter Name Here!";
+  let chapterName = "";
 
   function handleOnChangeColor(e: CustomEvent) {
     isColor = e.detail as boolean;

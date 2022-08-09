@@ -6,7 +6,7 @@
 
   const dispatch = createEventDispatcher();
 
-  let chapterName = "Type Your Chapter's Name Here!";
+  let chapterName = "";
 
   function handleChangeChapterName(e: Event) {
     dispatch("chapter-name", chapterName);
@@ -27,4 +27,5 @@
   bind:value={chapterName}
   on:keyup={handleChangeChapterName}
   on:keypress={handleEnter}
+  placeholder="Type Your Chapter's Name Here!"
 />
