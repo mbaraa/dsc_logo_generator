@@ -1,6 +1,6 @@
 # GDSC Logo Generator 
 
-[![GoDoc](https://godoc.org/github.com/mbaraa/dsc_logo_generator?status.png)](https://godoc.org/github.com/mbaraa/dsc_logo_generator) [![Go Report Card](https://goreportcard.com/badge/github.com/mbaraa/dsc_logo_generator)](https://goreportcard.com/report/github.com/mbaraa/dsc_logo_generator)
+[![GoDoc](https://godoc.org/github.com/GDSC-ASU/logo_generator?status.png)](https://godoc.org/github.com/GDSC-ASU/logo_generator) [![Go Report Card](https://goreportcard.com/badge/github.com/GDSC-ASU/logo_generator)](https://goreportcard.com/report/github.com/GDSC-ASU/logo_generator)
 
 ## dependencies:
 - [go-cairo](https://github.com/ungerik/go-cairo) cairo the image manipulation library
@@ -22,10 +22,10 @@
 ## examples:
 - ### horizontal
 <p align="center">
-<img src="https://github.com/mbaraa/dsc_logo_generator/blob/main/res/example_horizontal.png" >
+<img src="https://github.com/GDSC-ASU/logo_generator/blob/main/res/example_horizontal.png" >
 </p>
 
 - ### vertical
 <p align="center">
-<img src="https://github.com/mbaraa/dsc_logo_generator/blob/main/res/example.png" >
+<img src="https://github.com/GDSC-ASU/logo_generator/blob/main/res/example.png" >
 </p>

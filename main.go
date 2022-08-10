@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/mbaraa/dsc_logo_generator/api"
+	"github.com/GDSC-ASU/logo_generator/api"
 )
 
 func main() {

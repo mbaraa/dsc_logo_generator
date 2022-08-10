@@ -1,4 +1,4 @@
-module github.com/mbaraa/dsc_logo_generator
+module github.com/GDSC-ASU/logo_generator
 
 go 1.16
 

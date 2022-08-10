@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/mbaraa/dsc_logo_generator/logogen"
+	"github.com/GDSC-ASU/logo_generator/logogen"
 )
 
 // setupResponse sets required response headers.

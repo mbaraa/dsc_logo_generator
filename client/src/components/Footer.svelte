@@ -7,7 +7,11 @@
     class="absolute bottom-[12px] px-[24px] text-center w-full flex justify-between text-[13px]"
   >
     <span class="text-[#888888] font-black">
-      Made with <img alt="Smile" src="/images/smile.png" class="w-[12px] h-[12px] inline mb-[4px] mx-[2px]" /> By GDSC-ASU (JO)
+      Made with <img
+        alt="Smile"
+        src="/images/smile.png"
+        class="w-[12px] h-[12px] inline mb-[4px] mx-[2px]"
+      /> By GDSC-ASU (JO)
     </span>
 
     <div>
@@ -24,7 +28,7 @@
         imagePath="/images/facebook.png"
       />
       <LinkWithPhoto
-        link="https://github.com/mbaraa/dsc_logo_generator"
+        link="https://github.com/GDSC-ASU/logo_generator"
         imagePath="/images/github.png"
       />
     </div>

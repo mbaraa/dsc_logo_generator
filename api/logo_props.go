@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/mbaraa/dsc_logo_generator/files"
-	"github.com/mbaraa/dsc_logo_generator/logogen"
+	"github.com/GDSC-ASU/logo_generator/files"
+	"github.com/GDSC-ASU/logo_generator/logogen"
 )
 
 // LogoProps , well it's written on the box :)
