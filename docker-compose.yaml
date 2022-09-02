@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+  server:
+    build: .
+    volumes: []
+    ports:
+      - 1105:1105
+  client:
+    build: ./client/
+    ports:
+      - 8081:3000
