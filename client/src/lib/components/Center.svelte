@@ -43,7 +43,7 @@
                 a.href = `data:image/png;base64,${data["image"]}`;
                 a.download = `GDSC ${chapterName} ${
                     _orientation === 2 ? "Horizontal" : "Vertical"
-                } ${color}`;
+                } ${color}.png`;
                 a.click();
             });
     }
