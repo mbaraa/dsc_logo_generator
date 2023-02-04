@@ -4,7 +4,7 @@
 
   let transparent = false;
 
-  $: text = transparent ? "Transparent" : "Opaque";
+  $: text = "";
 
   function toggleTransparent() {
     dispatch("set-transparent", !transparent);
@@ -12,11 +12,11 @@
   }
 </script>
 
-<button
-    title={transparent? "Your will see the transparency when you download the logo!": ""}
-  on:click={toggleTransparent}
-  style={`color: ${
-    transparent ? "white" : "#1F2436"
-  }`}
-  class={`font-bold rounded-tr-[8px] rounded-br-[8px] py-[12px] px-[20px]  bg-[${transparent ? "#4385F3" : "white"}]`}>{text}</button
->
+<select bind:value={text} on:change={toggleTransparent} placeholder="Trasparency" class="font-bold rounded-tr-[8px] rounded-br-[8px] py-[12px] px-[15px] text-black bg-white">
+    <option value="" selected style="display:none">Transparency</option>
+    <option>Opaque</option>
+    <option
+    title="Your will see the transparency when you download the logo!"
+    >Transparent</option>
+</select>
+
