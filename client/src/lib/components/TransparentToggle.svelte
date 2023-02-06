@@ -2,13 +2,10 @@
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
 
-  let transparent = false;
-
-  $: text = "";
+  let text = "";
 
   function toggleTransparent() {
-    dispatch("set-transparent", transparent);
-    transparent = transparent;
+    dispatch("set-transparent", text === "Transparent");
   }
 </script>
 
