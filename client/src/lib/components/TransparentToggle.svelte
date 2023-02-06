@@ -7,8 +7,8 @@
   $: text = "";
 
   function toggleTransparent() {
-    dispatch("set-transparent", !transparent);
-    transparent = !transparent;
+    dispatch("set-transparent", transparent);
+    transparent = transparent;
   }
 </script>
 
