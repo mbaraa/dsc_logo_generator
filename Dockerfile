@@ -1,4 +1,4 @@
-FROM alpine:latest as build
+FROM alpine:latest AS build
 
 RUN apk add cairo cairo-dev go git
 
@@ -8,16 +8,16 @@ COPY . .
 RUN go get
 RUN go build -ldflags="-w -s"
 
-FROM alpine:latest as run
+FROM alpine:latest AS run
 
 RUN apk add cairo
 
 WORKDIR /app
 
 COPY --from=build /app/b64_files.json ./
-COPY --from=build /app/dsc_logo_generator ./run
+COPY --from=build /app/dsc_logo_generator ./dsc_logo_generator
 COPY --from=build /app/client/static/fonts/* /usr/share/fonts/
 
 EXPOSE 1105
 
-CMD ["./run"]
+CMD ["./dsc_logo_generator"]
